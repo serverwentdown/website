@@ -1,0 +1,21 @@
+.grass {
+background: rgba(60, 187, 233, 1) url('grass-100.png') repeat-x bottom left;
+height: 100px;
+padding: 0px 0px 0px 0px; 
+margin: 0px 0px 0px 0px;
+}
+body {
+background-color: rgba(60, 187, 233, 1);
+}
+
+.sun {
+background: rgba(60, 187, 233, 1) url('sun200.png') no-repeat;
+width: 200px;
+height: 200px;
+padding: 0px 0px 0px 0px; 
+margin: 0px 0px 0px 0px;
+position: absolute;
+top: 0px;
+right: 0px; 
+z-index: -1000;
+}

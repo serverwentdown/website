@@ -1,0 +1,12 @@
+user-agent: *
+# Canonical location of this site
+allow: /
+
+# These aren't important files, but we don't want Google to index these
+disallow: /old
+disallow: /old-profile
+disallow: /file-manager
+disallow: /presentation-template
+disallow: /resume
+disallow: /thumbgen
+disallow: /tmp

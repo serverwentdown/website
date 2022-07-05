@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ORD</title>
+	<meta name="theme-color" content="#6B68CA">
+	<link rel="manifest" href="manifest.json">
+	<link rel="icon" href="icon.192.png" type="image/png">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Code:600&display=swap">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+	<style>
+	:root {
+		--color-primary: hsl(242, 48%, 60%);
+		--color-primary-shift: hsl(255, 48%, 60%);
+		--color-text: hsl(0, 0%, 100%);
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:root {
+			--color-primary: hsl(242, 48%, 40%);
+			--color-primary-shift: hsl(255, 48%, 40%);
+			--color-text: hsl(0, 0%, 80%);
+		}
+	}
+
+	html {
+		font-size: 16px;
+	}
+
+	html, body {
+		width: 100%;
+		height: 100%;
+	}
+	
+	body {
+		background: linear-gradient(0deg, var(--color-primary), var(--color-primary-shift));
+		color: var(--color-text);
+
+		font-family: "Fira Code", Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		font-size: 2rem;
+		font-weight: 600;
+		letter-spacing: -0.03em;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	h1 {
+		font-size: 0.8em;
+		font-weight: 600;
+		opacity: 0.5;
+	}
+
+	.box {
+		width: 18rem;
+	}
+
+	.countdown {
+		margin-top: 3rem;
+		margin-bottom: 3rem;
+	}
+
+	.countdown > * {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+	}
+
+	.countdown-days {
+		font-size: 1.6em;
+	}
+
+	.countdown-days .unit {
+		opacity: 0.75;
+	}
+
+	.countdown-hms {
+		font-size: 1em;
+		opacity: 0.75;
+	}
+	
+	.countdown-dots {
+		font-size: 0.8em;
+		opacity: 0.5;
+		letter-spacing: 0em; /* Fix ligatures on Chrome */
+	}
+	</style>
+</head>
+<body>
+	<main class="box">
+		<h1 class="title">ORD</h1>
+		<div class="countdown">
+			<div class="countdown-days"><span class="value"></span> <span class="unit">days</span></div>
+			<div class="countdown-hms">
+				<span class="hours"></span><span class="unit">h</span>
+				<span class="minutes"></span><span class="unit">m</span>
+				<span class="seconds"></span><span class="unit">s</span>
+			</div>
+			<div class="countdown-dots"></div>
+		</div>
+	</main>
+
+	<script>
+	const DURATION_DAY = 24 * 60 * 60 * 1000;
+	const DURATION_HOUR = 60 * 60 * 1000;
+	const DURATION_MINUTE = 60 * 1000;
+	const DURATION_SECOND = 1000;
+
+	const daysElement = document.querySelector('.countdown-days .value');
+	const hoursElement = document.querySelector('.countdown-hms .hours');
+	const minutesElement = document.querySelector('.countdown-hms .minutes');
+	const secondsElement = document.querySelector('.countdown-hms .seconds');
+	const dots = document.querySelector('.countdown-dots');
+
+	const goal = Date.parse("2022-04-05T18:00:00+08:00");
+
+	setInterval(() => {
+		const now = Date.now();
+		let delta = goal - now;
+		const days = Math.floor(delta / DURATION_DAY);
+		delta -= days * DURATION_DAY;
+		const hours = Math.floor(delta / DURATION_HOUR);
+		delta -= hours * DURATION_HOUR;
+		const minutes = Math.floor(delta / DURATION_MINUTE);
+		delta -= minutes * DURATION_MINUTE;
+		const seconds = Math.floor(delta / DURATION_SECOND);
+		delta -= seconds * DURATION_SECOND;
+		const fraction = delta / DURATION_SECOND;
+	
+		daysElement.innerText = days;
+		hoursElement.innerText = hours;
+		minutesElement.innerText = minutes;
+		secondsElement.innerText = seconds;
+		
+		dots.innerText = '-'.repeat(1 + Math.round(fraction)) + '>';
+	}, 100);
+	</script>
+</body>
+</html>

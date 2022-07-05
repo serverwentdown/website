@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Single Node Docker</title>
+  <link rel="stylesheet" href="https://rsms.me/inter/inter-ui.css">
+  <link rel="stylesheet" href="fdr.css">
+  <link rel="stylesheet" href="theme.css">
+  <meta name="viewport" content="width=device-width">
+</head>
+<body>
+  
+  <div class="overlay top bottom background"></div>
+
+  <div class="fdr">
+     
+    <section id="title">
+      <div class="wrapper">
+        <h1>
+          One server, 15 services
+        </h1>
+        <h2>
+          Building an easy-to-manage server setup.
+        </h2>
+      </div>
+    </section>
+    
+    <section id="slides">
+      <div class="wrapper">
+        <h3>
+          Slides at <a href="https://0xCE.CF/single-docker">https://0xCE.CF/single-docker</a>
+        </h3>
+      </div>
+    </section>
+    
+    <section id="about-me">
+      <div class="wrapper center">
+        <img src="profile.256.jpg" class="circle w-96" />
+        <h1>
+          Ambrose Chua
+        </h1>
+        <p>
+          <a href="https://keybase.io/serverwentdown">keybase.io/serverwentdown</a>
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper">
+        <h1>Previously...</h1>
+      </div>
+    </section>
+    
+    <section>
+      
+    </section>
+
+    <section>
+      <div class="wrapper">
+        <h1>Goals</h1>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper">
+        <ul>
+          <li>
+            Host web services in many languages and with different databases
+            <ul>
+              <li>Node.js, PHP, generated HTML, Go</li>
+              <li>MariaDB, MongoDB, files</li>
+            </ul>
+          </li>
+          <li>
+            Constant updates cannot impact existing services
+          </li>
+          <li>
+            Secure!
+          </li>
+          <li>
+            Avoid writing our own scripts/software
+          </li>
+          <li>
+            <strong>Easy to perform day-to-day operations</strong>
+          </li>
+        </ul> 
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <h1>Soultion: Docker!</h1>
+        <p>(of course)</p>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="overlay right">
+    <svg class="circle disabled" id="next" viewBox="0 0 32 32">
+      <defs>
+        <mask id="right-mask" x="0" y="0" width="32" height="32">
+          <rect x="0" y="0" width="32" height="32" fill="#fff" />
+          <text text-anchor="middle" x="17" y="27.6" font-weight="900" font-size="36">&gt;</text>
+        </mask>
+      </defs>
+      <circle cx="16" cy="16" r="16" mask="url(#right-mask)" fill="#fff" />
+    </svg>  
+  </div>
+  <div class="overlay left">
+    <svg class="circle disabled" id="previous" viewBox="0 0 32 32">
+      <defs>
+        <mask id="left-mask" x="0" y="0" width="32" height="32">
+          <rect x="0" y="0" width="32" height="32" fill="#fff" />
+          <text text-anchor="middle" x="15" y="27.6" font-weight="900" font-size="36">&lt;</text>
+        </mask>
+      </defs>
+      <circle cx="16" cy="16" r="16" mask="url(#left-mask)" fill="#fff" />
+    </svg>  
+  </div>
+
+  <script src="fdr.src.js"></script>
+  <script>
+    var f = new Fdr();
+    f.bindKeyboard();
+    f.bindNext("#next");
+    f.bindPrevious("#previous");
+    f.bindPosition((position) => {
+      var pos = -position * 1024 * 1.5 + "px";
+      document.querySelector(".background").style.transform = "translateX(" + pos + ")";
+    });
+    f.bindHashChange();
+  </script>
+</body>
+</html>
+<!-- vim: set expandtab ts=2 sw=2: -->

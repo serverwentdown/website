@@ -1,0 +1,12 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "description": "Ambrose Chua's Personal Website",
+  "main": "index.js",
+  "author": "Ambrose Chua",
+  "license": "None",
+  "private": true,
+  "dependencies": {
+    "uglifycss": "^0.0.29"
+  }
+}

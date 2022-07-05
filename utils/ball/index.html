@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Ball</title>
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scaleable=no" />
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<link rel="apple-touch-startup-image" href="http://placehold.it/320x460.png&text=Ball"> 
+<link rel="apple-touch-startup-image" href="http://placehold.it/640x920.png&text=Ball" sizes="640x920">
+<link rel="apple-touch-startup-image" href="http://placehold.it/640x1096.png&text=Ball" sizes="640x1096">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<style>
+* {
+padding: 0;
+margin: 0;
+box-sizing: border-box;
+}
+body, html {
+width: 100%;
+height: 100%;
+overflow: hidden;
+}
+.ball {
+background-color: #000;
+color: #fff;
+width: 30px;
+height: 30px;
+position: absolute;
+top: 0px;
+left: 0px;
+text-align: center;
+padding-top: 5px;
+border-radius: 15px;
+transition: all 10ms;
+}
+</style>
+</head>
+<body>
+<!-- <span id="s"></span> -->
+<div id="ball" class="ball"></div>
+<!-- 
+<div id="ballc" class="ball">B</div>
+<div id="ballb" class="ball">C</div>
+-->
+<!-- <canvas id="c"></canvas. -->
+<!-- <script type="text/javascript" src="gravity.js"></script> -->
+<script type="text/javascript">
+
+var b=document.getElementById("ball");
+var bb=document.getElementById("ballb");
+var bc=document.getElementById("ballc");
+var c=document.getElementById("c");
+
+var timescale=1; // the speed of the frames. set as 1 for most natural
+var accratio=9.82 / (1000*1000) * 40 * 160 / 90;
+// 9.82 m/s square / 1000^2 * 40in * 160dpi / 90° 
+// acc on earth convert to m/ms square to inches/ms square to dots/ms square then for each 1° 
+var bounfriction=0.05; // wall bounce % reduced (0.05)
+var isrunning=true;
+var width=document.width;
+var height=document.height;
+var erroronce=0;
+var ex=0;
+var ey=0;
+var calx=0;
+var caly=0;
+// initial ball parameters
+var ball={
+width: 30,
+height: 30,
+x: 100,
+y: 0,
+velx: 0,
+vely: 0,
+accx: 0,
+accy: 0,
+friction: 0.01,
+ele: b
+};
+var ballb={
+width: 30,
+height: 30,
+x: 200,
+y: 0,
+velx: 0,
+vely: 0,
+accx: 0,
+accy: 0,
+friction: 0.0075,
+ele: bb
+};
+var ballc={
+width: 30,
+height: 30,
+x: 150,
+y: 0,
+velx: 0,
+vely: 0,
+accx: 0,
+accy: 0,
+friction: 0.0085,
+ele: bc
+};
+var obj=[ball]; // , ballb, ballc];
+// Unused as of now
+var collines=[
+{
+from: {
+x: 0,
+y: 0
+},
+to: {
+x: 0,
+y: height
+},
+border: 0
+},
+{
+from: {
+x: 0,
+y: 0
+},
+to: {
+x: width,
+y: 0
+},
+border: 0
+},
+{
+from: {
+x: 120,
+y: 0
+},
+to: {
+x: 120,
+y: 120
+},
+border: 10
+}
+];
+var prev=new Date().getTime()-2;
+var time;
+// display ball at position
+function updframe(cobj) {
+cobj.ele.style.left=cobj.x+"px";
+cobj.ele.style.top=cobj.y+"px";
+}
+// updates acc based on accratio and accelerometer values
+function updacc(cobj) {
+cobj.accx=ex*accratio;
+cobj.accy=ey*accratio;
+}
+// updates vel based on acc
+function updvel(cobj) {
+cobj.velx+=cobj.accx*time;
+cobj.vely+=cobj.accy*time;
+}
+// applies friction
+function reducevel(cobj) {
+cobj.velx-=cobj.friction*cobj.velx*time;
+cobj.vely-=cobj.friction*cobj.vely*time;
+}
+// updates displacement based on velocity
+function upddis(cobj) {
+cobj.x+=cobj.velx*time;
+cobj.y+=cobj.vely*time;
+}
+// collision detection
+function updbouneach(obja, objb) {
+if (obja.y+obja.width>objb.y && true) {
+cobj.velx=-(cobj.velx-cobj.velx*bounfriction);
+cobj.x=0;
+}
+if (cobj.x>width-cobj.width-0.5) {
+cobj.velx=-(cobj.velx-cobj.velx*bounfriction);
+cobj.x=width-cobj.width;
+}
+}
+// collision detection
+function updboun(cobj) {
+// with viewport
+if (cobj.x<0) {
+cobj.velx=-(cobj.velx-cobj.velx*bounfriction);
+cobj.x=0;
+}
+if (cobj.x>width-cobj.width-0.5) {
+cobj.velx=-(cobj.velx-cobj.velx*bounfriction);
+cobj.x=width-cobj.width;
+}
+if (cobj.y<0) {
+cobj.vely=-(cobj.vely-cobj.vely*bounfriction);
+cobj.y=0;
+}
+if (cobj.y>height-cobj.height-0.5) {
+cobj.vely=-(cobj.vely-cobj.vely*bounfriction);
+cobj.y=height-cobj.height;
+}
+}
+// compatibility check for accelerometer
+if (window.DeviceOrientationEvent) {
+window.addEventListener("deviceorientation", function(event) {
+if (window.orientation==0) {
+// updates accelerometer values
+ex=event.gamma-calx;
+ey=event.beta-caly;
+} else if (window.orientation==90) {
+ey=-event.gamma-calx;
+ex=event.beta-caly;
+} else if (window.orientation==-90) {
+ey=event.gamma-calx;
+ex=-event.beta-caly;
+} else {
+if (erroronce==0) {
+alert("error");
+pause();
+erroronce=1;
+}
+}
+}, false);
+} else {
+window.addEventListener("devicemotion", function(event) {
+if (window.orientation==0) {
+ex=event.acceleration.x-calx;
+ey=event.acceleration.y-caly;
+} else if (window.orientation==90) {
+ey=-event.acceleration.x-calx;
+ex=event.acceleration.y-caly;
+} else if (window.orientation==-90) {
+ey=event.acceleration.x-calx;
+ex=-event.acceleration.y-caly;
+} else {
+if (erroronce==0) {
+alert("error");
+pause();
+erroronce=1;
+}
+}
+}, false);
+}
+window.addEventListener("resize", function() {
+width=document.width;
+height=document.height;
+}, false);
+// every frame
+function frame() {
+now=new Date().getTime();
+time=(now-prev)*timescale;
+prev=now;
+for (i=0;i<obj.length;i++) {
+currentobj=obj[i];
+updacc(currentobj);
+updvel(currentobj);
+reducevel(currentobj);
+upddis(currentobj);
+}
+for (i=0;i<obj.length;i++) {
+currentobj=obj[i];
+updboun(currentobj);
+}
+for (i=0;i<obj.length;i++) {
+currentobj=obj[i];
+updframe(currentobj);
+}
+}
+// resume playback
+function resume() {
+prev=new Date().getTime()-2;
+updater=setInterval(frame, 0);
+}
+// pauses playback
+function pause() {
+clearInterval(updater);
+}
+// calibrates
+function calibrate() {
+calx=ex+calx;
+caly=ey+caly;
+}
+// best possible frame rate
+// updater=setInterval(frame, 0);
+// start
+resume();
+// simple pause and play interactions
+document.addEventListener("touchstart", function(e) {
+if (isrunning==true) {
+isrunning=false;
+pause();
+}
+}, false);
+document.addEventListener("touchmove", function(e) {
+e.preventDefault();
+isrunning=true;
+}, false);
+document.addEventListener("touchend", function(e) {
+if (isrunning==false) {
+isrunning=true;
+resume();
+}
+if (e.changedTouches[0].pageX < 40 && e.changedTouches[0].pageY < 40) {
+calibrate();
+// alert("calibrated");
+}
+}, false);
+// alert("Tilt your iOS device to move ball. Tap top-left corner to calibrate. ");
+</script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<title>the web utilities set</title>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="utils" />
+<link rel="icon" type="image/png" href="images/icon16.png" />
+<link rel="apple-touch-icon-precomposed" href="images/icon.png" />
+<link rel="stylesheet" href="styles/main.css" />
+<meta name="description" content="web utilities set by a2y inc. timer, stopwatch, geolocation, clock, " />
+<meta name="keywords" content="timer, stopwatch, clock, geolocation, counter, random, draw, twitter, trends, ambc, a2, inc, web, utilities, util, calculator, todo" />
+<meta name="author" content="eurica inc. ">
+</head>
+<body>
+<div id="floating">
+<div class="statusbarpadd">&nbsp;</div>
+<div id="menu">
+<h1>util</h1>
+<p>a set of web (html5) utilities. made in dreamland by a2y inc. and ambc. (some stuff are still in their early stages, please report problems to <a href="mailto:amb.ccm@gmail.com">ambc &lt;amb.ccm@gmail.com&gt;</a>) </p>
+<!-- AddThis Button BEGIN -->
+<div class="addthis_toolbox addthis_default_style ">
+<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+<a class="addthis_button_tweet"></a>
+<a class="addthis_button_pinterest_pinit"></a>
+<a class="addthis_counter addthis_pill_style"></a>
+</div>
+<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4fa8d8535f56a1a6"></script>
+<!-- AddThis Button END -->
+<h2>menu</h2>
+<div id="bio">
+<ul>
+
+</ul>
+</div>
+</div>
+<div id="pulley">&#9776; menu</div>
+</div>
+
+<div id="scrollable" class="scrollable">
+	<div id="content">
+		<div class="statusbarpadd">&nbsp;</div>
+		<div id="spacing">&nbsp;</div>
+		<div id="list" class="posts">
+		<div class="post">
+		<h1>util</h1>
+		<p>a set of web (html5) utilities. made in dreamland. </p>
+		<!-- AddThis Button BEGIN -->
+<div class="addthis_toolbox addthis_default_style ">
+<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+<a class="addthis_button_tweet"></a>
+<a class="addthis_button_pinterest_pinit"></a>
+<a class="addthis_counter addthis_pill_style"></a>
+</div>
+<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4fa8d8535f56a1a6"></script>
+<!-- AddThis Button END -->
+		</div>
+		<div class="post">
+		<a href="stopwatch/">
+		<h2>stopwatch</h2>
+		</a>
+		</div>
+		<div class="post">
+		<a href="draw/">
+		<h2>draw, simplified</h2>
+		</a>
+		</div>
+		<div class="post">
+		<a href="todo/">
+		<h2>todo</h2>
+		</a>
+		</div>
+		<div class="post">
+		<a href="timer/">
+		<h2>timer</h2>
+		</a>
+		</div>
+		<div class="post">
+		<a href="calculator/">
+		<h2>calculator</h2>
+		</a>
+		</div>
+		<div class="post">
+		<a href="random/">
+		<h2>random number</h2>
+		</a>
+		</div>
+		<div class="post">
+		<a href="io/">
+		<h2>what? only ones and zeros? </h2>
+		</a>
+		</div>
+		<div class="post">
+		<a href="trends/">
+		<h2>twitter trends</h2>
+		</a>
+		</div>
+		<div class="post">
+		<a href="ball/">
+		<h2>a ball</h2>
+		</a>
+		</div>
+		<div class="post">
+		<a href="water/">
+		<h2>water</h2>
+		</a>
+		</div>
+		<div class="post">
+		<a href="counter/">
+		<h2>counter - count one by one</h2>
+		</a>
+		</div>
+		<div class="post">
+		<a href="twister/">
+		<h2>twister spinner by voice. </h2>
+		</a>
+		</div>
+		</div>
+		<div id="spacing">&nbsp;</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+
+//menuitems=[["ambc's static files", "/"], ["uploader", "../upl/"]];
+menuitems=[["travel to 2016", "https://ambrose.makerforce.io/"], ["uploader", "#upl.cz.cc"], ["murder me", "https://twitter.com/ambrosechua"]];
+
+	if (window.navigator.standalone == true) {
+		$(".statusbarpadd").css("display", "block");
+	}
+
+	for (i=0;i<menuitems.length;i++) {
+		$("#menu #bio ul").append('<a href="'+menuitems[i][1]+'"><li>'+menuitems[i][0]+'</li></a>');
+	}
+
+	$("#pulley").click(function() {
+		// alert("LOL");
+		if ($("#menu").css("height")=="210px") {
+			$("#menu").css("height", "1px");
+			// $("#pulley").html("Tap for details");
+		} else {
+			$("#menu").css("height", "210px");
+			// $("#pulley").html("Tap to close");
+		}
+	});
+	barvisible=true;
+	$("#scrollable").scroll(function() {
+		if ($("#scrollable").scrollTop()>=75) {
+			newbarvisible=false;
+		}
+		else {
+			newbarvisible=true;
+		}
+		if (barvisible != newbarvisible) {
+			barvisible=newbarvisible;
+			if (barvisible==false) {
+				$("#floating").fadeOut("slow");
+			}
+			else {
+				$("#floating").fadeIn("slow");
+			}
+		}
+	});
+	if (window.screen.height==568) { // iPhone 4"
+		document.querySelector("meta[name=viewport]").content="width=320.1, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0";
+	}
+</script>
+</body>
+</html>

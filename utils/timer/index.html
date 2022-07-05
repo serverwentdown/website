@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<title>the web utilities set</title>
+<link rel="icon" type="image/png" href="../images/icon16.png" />
+<link rel="stylesheet" href="../styles/main.css" />
+</head>
+<body>
+<div id="floating">
+<div class="statusbarpadd">&nbsp;</div>
+<div id="menu">
+<h1>util</h1>
+<p>a set of web (html5) utilities. made in dreamland by a2y inc. and ambc. (some stuff are still in their early stages, please report problems to <a href="mailto:amb.ccm@gmail.com">ambc &lt;amb.ccm@gmail.com&gt;</a>) </p>
+</div>
+<div id="pulley">&#9776; menu</div>
+</div>
+
+<div id="scrollable" class="scrollable">
+	<div id="content">
+		<div class="statusbarpadd">&nbsp;</div>
+		<div id="spacing">&nbsp;</div>
+		<div id="list" class="posts">
+		<div class="post">
+		<h1>though timer is not working yet. </h1>
+		</div>
+		</div>
+		<div id="spacing">&nbsp;</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+	if (window.navigator.standalone == true) {
+		$(".statusbarpadd").css("display", "block");
+	}
+	$("#pulley").click(function() {
+		// alert("LOL");
+		if ($("#menu").css("height")=="210px") {
+			$("#menu").css("height", "1px");
+			// $("#pulley").html("Tap for details");
+		} else {
+			$("#menu").css("height", "210px");
+			// $("#pulley").html("Tap to close");
+		}
+	});
+	barvisible=true;
+	$("#scrollable").scroll(function() {
+		if ($("#scrollable").scrollTop()>=75) {
+			newbarvisible=false;
+		}
+		else {
+			newbarvisible=true;
+		}
+		if (barvisible != newbarvisible) {
+			barvisible=newbarvisible;
+			if (barvisible==false) {
+				$("#floating").fadeOut("slow");
+			}
+			else {
+				$("#floating").fadeIn("slow");
+			}
+		}
+	});
+	if (window.screen.height==568) { // iPhone 4"
+		document.querySelector("meta[name=viewport]").content="width=320.1, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0";
+	}
+</script>
+</body>
+</html>

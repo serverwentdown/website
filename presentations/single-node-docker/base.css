@@ -1,0 +1,176 @@
+
+/* Units */
+
+html {
+  font-size: 10px;
+}
+
+@media screen and (max-width: 600px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+/* Scolling */
+
+html, body {
+  overflow-x: hidden;
+  position: relative; /* Safari likes this */
+}
+
+/* Typography */
+
+body {
+  font-family: "Inter UI", "Helvetica Neue", Ariel, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.4;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0.5em 0;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 2.0em;
+}
+h2 {
+  font-size: 1.6em;
+}
+h3 {
+  font-size: 1.4em;
+}
+
+p {
+  margin: 1em 0;
+}
+
+strong, b {
+  font-weight: 700;
+}
+
+em, i {
+  font-style: italic;
+}
+
+small {
+  font-size: 0.6em;
+}
+
+ul, ol {
+  margin: 1em 0;
+}
+
+ul li,
+ul ul,
+ul ol,
+ol li,
+ol ol,
+ol ul {
+  margin: 0.5em 0;
+}
+
+ul {
+  padding-left: 1.3em;
+  list-style: disc;
+}
+
+ol {
+  padding-left: 1.3em;
+  list-style: decimal;
+}
+
+code, pre {
+  padding: 0.2em;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0.4rem;
+  font-family: "Ubuntu Mono", "Monaco", monospace;
+}
+
+pre code {
+  padding: 0;
+  background: none;
+}
+
+blockquote {
+  /*font-style: italic;*/
+  font-size: 1.4em;
+}
+
+a:link,
+a:hover,
+a:active,
+a:visited {
+  color: inherit;
+}
+
+a:hover,
+a:active {
+  opacity: 0.8;
+}
+
+/* Utilitiy */
+
+.picture {
+  width: 64rem;
+  max-width: 100%;
+  border-radius: 0.4rem;
+}
+
+.w-512 {
+  width: 51.2rem;
+}
+
+.w-384 {
+  width: 51.2rem;
+}
+
+.w-256 {
+  width: 25.6rem;
+}
+
+.w-128 {
+  width: 12.8rem;
+}
+
+.w-96 {
+  width: 9.6rem;
+}
+
+.w-64 {
+  width: 6.4rem;
+}
+
+.w-100p {
+  width: 100%;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.large {
+  font-size: 1.4em;
+}
+
+.fdr header,
+.fdr section {
+  padding: 6rem 4rem;
+}

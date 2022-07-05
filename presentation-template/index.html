@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Presentation Name</title>
+  <link rel="icon" href="profile.256.jpg">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <link rel="stylesheet" href="fdr.css">
+  <link rel="stylesheet" href="theme.css">
+  <meta name="viewport" content="width=device-width">
+  <meta name="author" content="@serverwentdown">
+  <noscript>
+    <style>
+      .fdr > * {
+        position: static;
+        display: none;
+        width: auto;
+        height: auto;
+      }
+      .fdr > *:not(:first-child) {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .overlay {
+        display: none;
+      }
+      .background {
+        background: none;
+      }
+      body {
+        color: initial;
+      }
+    </style>
+  </noscript>
+</head>
+<body>
+
+  <noscript>
+    <strong style="color: #f00">
+      JavaScript disabled? Here's a simple HTML version for you without the fancy slides.
+    </strong>
+  </noscript>
+  
+  <div class="overlay top bottom background"></div>
+
+  <div class="fdr">
+     
+    <header>
+      <div class="wrapper">
+        <img src="/profile.256.jpg" class="circle w-128" width="128" />
+        <h1>Hello, I'm Ambrose Chua. <br>I build websites and run servers. </h1>
+      </div>
+    </header>
+
+    <section id="link-to-slides">
+      <div class="wrapper center">
+        <h3>
+          Slides at <a href="https://0xCE.CF/single-docker">https://0xCE.CF/single-docker</a>
+        </h3>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper">
+        <h1>For now, you should <a href="/me/">visit my older site</a>. </h1>
+      </div>
+    </section>
+    
+  </div>
+
+  <nav class="overlay top">
+    <span class="f-1">
+      <script>document.write(document.querySelector("meta[name=author]").content)</script>
+    </span>
+    <span class="f-1 center">
+      <script>document.write(document.title)</script>
+    </span>
+    <span class="f-1 right" id="page-number"></span>
+  </nav>
+
+  <nav class="overlay bottom" style="opacity: 0.25">
+    <span class="f-1"></span>
+    <span><a href="https://github.com/serverwentdown/fdr">fdr</a> 0.1p1</span>
+  </nav>
+
+  <div class="overlay right">
+    <svg class="circle disabled" id="next" viewBox="0 0 32 32">
+      <defs>
+        <mask id="right-mask" x="0" y="0" width="32" height="32">
+          <rect x="0" y="0" width="32" height="32" fill="#fff" />
+          <text text-anchor="middle" x="18" y="21.5" font-family="Inter" font-weight="900" font-size="16">&#9654;</text>
+        </mask>
+      </defs>
+      <circle cx="16" cy="16" r="16" mask="url(#right-mask)" fill="#fff" />
+    </svg>
+  </div>
+  <div class="overlay left">
+    <svg class="circle disabled" id="previous" viewBox="0 0 32 32">
+      <defs>
+        <mask id="left-mask" x="0" y="0" width="32" height="32">
+          <rect x="0" y="0" width="32" height="32" fill="#fff" />
+          <text text-anchor="middle" x="15" y="21.5" font-family="Inter" font-weight="900" font-size="16">&#9668;</text>
+        </mask>
+      </defs>
+      <circle cx="16" cy="16" r="16" mask="url(#left-mask)" fill="#fff" />
+    </svg>
+  </div>
+
+  <script src="fdr.src.js"></script>
+  <script>
+    var f = new Fdr();
+    f.bindKeyboard();
+    f.bindNext("#next");
+    f.bindPrevious("#previous");
+    f.bindPosition((position) => {
+      var pos = -position * 1024 * 1.5 + "px";
+      document.querySelector(".background").style.transform = "translateX(" + pos + ")";
+      document.querySelector("#page-number").innerText = f.currentIndex + 1 + " of " + f.size
+      console.log(pos);
+    });
+    f.bindHashChange();
+    window.addEventListener("keyup", (e) => {
+      document.querySelector("body").classList.add("interface-hidden")
+    })
+    window.addEventListener("mousemove", (e) => {
+      document.querySelector("body").classList.remove("interface-hidden")
+    })
+  </script>
+  </script>
+</body>
+</html>
+<!-- vim: set expandtab ts=2 sw=2: -->

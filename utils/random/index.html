@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>0 to a hundred</title>
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<link rel="apple-touch-startup-image" href="http://placehold.it/320x460.png&text=app"> 
+<link rel="apple-touch-startup-image" href="http://placehold.it/640x920.png&text=app" sizes="640x920">
+<link rel="apple-touch-startup-image" href="http://placehold.it/640x1096.png&text=app" sizes="640x1096">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<style>
+* {
+padding:0;
+margin:0;
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+box-sizing: border-box;
+}
+body {
+background-color: #000;
+color: #fff;
+text-align: center;
+font-family: "Courier New";
+width: 100%;
+height: 100%;
+font-size: 20px;
+line-height: 20px;
+vertical-align: middle;
+overflow: hidden;
+font-family: Monospace;
+-webkit-transition-property: background-color;
+-webkit-transition-duration: 1000ms;
+-moz-transition-property: background-color;
+-moz-transition-duration: 500ms;
+-o-transition-property: background-color;
+-o-transition-duration: 500ms;
+-ms-transition-property: background-color;
+-ms-transition-duration: 500ms;
+transition-property: background-color;
+transition-duration: 500ms;
+}
+html {
+width: 100%;
+height: 100%;
+overflow: hidden;
+text-align: center;
+}
+#c {
+font-size: 100px;
+line-height: 100px;
+height: 100px;
+width: 100%;
+position: absolute;
+top: 50%;
+left: 0;
+margin: -50px auto 0 auto;
+text-align: center;
+color: #fff;
+/* text-shadow: 0 0 10px rgba(255, 255, 255, 0.75); */
+-webkit-transition-property: text-shadow;
+-webkit-transition-duration: 1000ms;
+-moz-transition-property: text-shadow;
+-moz-transition-duration: 500ms;
+-o-transition-property: text-shadow;
+-o-transition-duration: 500ms;
+-ms-transition-property: text-shadow;
+-ms-transition-duration: 500ms;
+transition-property: text-shadow;
+transition-duration: 500ms;
+}
+#p {
+position: absolute;
+top: 10px;
+right: 10px;
+}
+#m {
+position: absolute;
+bottom: 10px;
+right: 10px;
+}
+#i {
+position: absolute;
+bottom: 10px;
+left: 10px;
+}
+.btn {
+font-size: 25px;
+line-height: 25px;
+width: 45px;
+height: 45px;
+padding: 10px 10px;
+-webkit-transition-property: color;
+-webkit-transition-duration: 1000ms;
+-moz-transition-property: color;
+-moz-transition-duration: 500ms;
+-o-transition-property: color;
+-o-transition-duration: 500ms;
+-ms-transition-property: color;
+-ms-transition-duration: 500ms;
+transition-property: color;
+transition-duration: 500ms;
+}
+.btn:hover {
+background-color: #0f0f0f;
+}
+.btn:active {
+background-color: #333;
+}
+body.ws {
+background-color: #fff;
+color: #000;
+}
+.ws #c {
+color: #fff;
+text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+}
+.ws .btn:hover {
+background-color: #f0f0f0;
+}
+.ws .btn:active {
+background-color: #ccc;
+}
+</style>
+</head>
+<body class="">
+<div id="c">loading</div>
+<div class="btn" id="p">@</div>
+<div class="btn" id="i">•</div>
+<script>
+function ge(id) {
+return document.getElementById(id);
+}
+var alng=2;
+var theme=0;
+var max=prompt("max")+1;
+ge("c").innerHTML="@";
+
+function is_touch_device() {  
+  try {  
+    document.createEvent("TouchEvent");  
+    return true;  
+  } catch (e) {  
+    return false;  
+  }  
+}
+
+if (is_touch_device()) {
+ge("p").addEventListener("touchend", plus);
+ge("i").addEventListener("touchend", info);
+document.addEventListener("touchmove", function(e) {
+e.preventDefault();
+});
+}
+else {
+ge("p").addEventListener("mouseup", plus);
+ge("i").addEventListener("mouseup", info);
+}
+document.addEventListener("keyup", function(e) {
+if (e.which==32 || e.which==13) {
+plus();
+}
+}); 
+
+function plus() {
+i=Math.floor(Math.random()*max);
+ge("c").innerHTML=i;
+}
+
+function info() {
+if (theme==0) {
+document.body.className="ws";
+theme=1;
+// alert(document.body.innerHTML);
+}
+else if (theme==1) {
+document.body.className="";
+theme=0;
+}
+}
+</script>
+</body>
+</html>

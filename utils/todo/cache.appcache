@@ -1,0 +1,12 @@
+CACHE MANIFEST
+# 05/01/2013 v2.1.4
+CACHE:
+index.html
+jquery-1.8.3.min.js
+icon16.png
+icon114.png
+icon144.png
+fb/fancybox_sprite.png
+fb/fancybox_overlay.png
+fb/jquery.fancybox.css
+fb/jquery.fancybox.pack.js

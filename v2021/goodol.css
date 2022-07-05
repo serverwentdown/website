@@ -1,0 +1,166 @@
+/*
+ * Good 'ol plain CSS, always fun.
+ */
+
+/* Box Model */
+
+*, *:before, *:after {
+	box-sizing: border-box;
+}
+
+/* Fonts & Base Theme */
+
+html {
+	font-family: "Manrope";
+	font-size: 100%;
+	line-height: 1.7;
+	letter-spacing: 0.03em;
+
+	background: white;
+	color: black;
+}
+@media screen and (max-width: 480px) {
+	html {
+		font-size: 50%;
+	}
+	body {
+		font-size: 200%;
+	}
+}
+/*
+@media screen and (max-width: 340px) {
+	html {
+		font-size: 40%;
+	}
+	body {
+		font-size: 200%;
+	}
+}
+*/
+
+@media (prefers-color-scheme: dark) {
+	html {
+		background: black;
+		color: white;
+	}
+}
+
+body {
+	font-weight: 350;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 750;
+	line-height: 1.4;
+	letter-spacing: -0.03em;
+}
+
+ul, ol {
+	padding-inline-start: 1.8em;
+}
+
+a:link,
+a:visited {
+	color: inherit;
+}
+
+/* Components: Inline Navigation */
+
+.inline-nav {
+	padding: 0.25em 0.5em;
+}
+
+.inline-nav a {
+	margin: 0.25em 0.5em;
+	display: inline-block;
+}
+
+/* Layout */
+
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+}
+
+main {
+	height: 100%;
+	min-height: max-content;
+	display: flex;
+}
+@media (max-width: 45em) {
+	main {
+		flex-direction: column;
+	}
+}
+
+section {
+	flex-shrink: 0;
+	width: auto;
+	max-width: 90vw;
+}
+@media (max-width: 45em) {
+	section {
+		width: 100% !important;
+		max-width: 100%;
+	}
+}
+
+.flex-column {
+	display: flex;
+	flex-direction: column;
+}
+
+.flex-grow {
+	flex-grow: 1;
+}
+
+.flex-center {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+/* Theme: Footnotes */
+
+.footnote {
+	opacity: 0.5;
+}
+
+/*
+ * This is where majority of the content is styled
+ */
+
+/* Theme: Inline Navigation */
+
+.inline-nav {
+	font-size: 0.8em;
+	font-weight: 600;
+	letter-spacing: 0.075em;
+
+	background: hsl(139, 45%, 45%);
+	color: white;
+}
+
+/* Blocks: Headline */
+
+.b-headline {
+	padding: 6rem;
+	padding-right: 10rem;
+}
+
+/* Sections: History */
+
+.s-headline {
+	width: 60em;
+}
+
+.s-history-1 {
+	padding: 4rem;
+	width: 30em;
+
+	background: hsl(274, 33%, 33%);
+	color: white;
+}

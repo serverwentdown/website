@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>bon voyage! notebook. </title>
+<!-- <link rel="apple-touch-icon-precomposed" href="bonvoyage120.png" /> -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="bonvoyage114.png" />
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="bonvoyage144.png" />
+<meta name="apple-mobile-web-app-title" content="notebook. ">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no" /> 
+<link rel="stylesheet" href="add2home/add2home.css" />
+<style>
+@import url(http://fonts.googleapis.com/css?family=Josefin+Sans:100,400,600);
+* {
+box-sizing: border-box;
+padding: 0;
+margin: 0;
+vertical-align: middle;
+outline: none;
+}
+body, html { 
+height: 100%;
+width: 100%;
+background-color: #000;
+color: #fff;
+font-family: "Josefin Sans";
+font-weight: 400;
+font-size: 30px;
+overflow-x: hidden;
+overflow-y: hidden;
+}
+h1 {
+font-weight: 100;
+font-size: 50px;
+line-height: 35px;
+}
+h1:first-letter {
+margin-left: 30px;
+}
+p {
+padding: 10px;
+}
+/* fancy notes */
+
+#notes {
+width: auto;
+min-height: 30%;
+color: #fff;
+background-color: #233;
+padding: 4px;
+/*box-shadow: 20px 0 20px 0 #233;*/
+text-shadow: 4px 4px 0 #000, 3px 3px 0 #000, 2px 2px 0 #000, 1px 1px 0 #000;
+-webkit-transition: all 0.5s;
+margin: 2%;
+border: 2px solid transparent;
+position: relative;
+left: 0;
+/* -webkit-animation: shake 0.1s infinite linear; */
+/* -webkit-animation-play-state: paused; */
+}
+#notes.down {
+/* -webkit-animation-play-state: running; */
+/* -webkit-animation: shake 0.1s infinite linear; */
+-webkit-transition: none;
+color: #699;
+box-shadow: 0 0 30px 20px #233;
+border: 2px solid #699;
+}
+/* 
+@-webkit-keyframes shake {
+0% {
+left: 0;
+}
+25% {
+left: -20px;
+}
+50% {
+left: 0;
+}
+75% {
+left: 20px;
+}
+100% {
+left: 0;
+}
+}
+*/
+
+/* end fancy notes */
+
+#go-menu {
+z-index: 100;
+position: absolute;
+top: 22px;
+left: 2px;
+padding: 0 4px;
+font-size: 18px;
+border: 1px solid transparent;
+background-color: rgba(255, 255, 255, 0.2);
+}
+#go-menu:hover {
+border: 1px solid rgba(255, 255, 255, 0.5);
+background-color: rgba(255, 255, 255, 0.4);
+}
+#holder {
+width: 100%;
+height: 100%;
+overflow-x: hidden;
+overflow-y: hidden;
+}
+.pg {
+padding-top: 20px;
+width: 100%;
+height: 100%;
+/* border: 1px solid #fff; */
+-webkit-transition: left 1s ease-in-out, opacity 0.5s ease-in-out, -webkit-transform 0.75s linear;/* , display 1s; */
+background-color: #000;
+position: absolute;
+top: 0;
+left: 100%;
+opacity: 0;
+-webkit-transform: scale(0.8);
+}
+.pg.active {
+left: 0;
+opacity: 1;
+-webkit-transform: none;
+}
+.menu-btn {
+padding: 5px;
+margin: 10px 0;
+display: inline-block;
+width: 60%;
+border: 1px solid transparent;
+background-color: rgba(255, 255, 255, 0.2);
+}
+.menu-btn:after {
+content: '\00A0\00A0\25B6'; /* &#9654; */
+font-size: 10px;
+padding: 9px;
+float: right;
+}
+.menu-btn:hover {
+border: 1px solid rgba(255, 255, 255, 0.5);
+background-color: rgba(255, 255, 255, 0.4);
+}
+.menu-btn:active {
+border: 1px solid rgba(255, 255, 255, 0.5);
+background-color: rgba(255, 255, 255, 0.4);
+}
+#map-canvas {
+width: 100%;
+height: 70%;
+}
+#map-canvas.full {
+width: 100%;
+height: 100%;
+}
+span.maptag {
+color: #000;
+}
+</style>
+</head>
+<body>
+<div id="go-menu">&#9776;</div>
+<div id="holder">
+<div class="pg active" id="pg-menu">
+<h1>bon voyage! notebook. </h1>
+<p id="w">welcome. </p>
+<div class="menu-btn" id="menu-map">map</div>
+<div class="menu-btn" id="menu-notes">notes</div>
+<div class="menu-btn" id="menu-about">about</div>
+</div>
+<div class="pg" id="pg-map">
+<h1>map</h1>
+<div id="map-canvas"></div>
+</div>
+<div class="pg" id="pg-notes">
+<h1>notes</h1>
+<div id="notes" contenteditable="true"></div>
+</div>
+<div class="pg" id="pg-about">
+<h1>about</h1>
+<p>by ambc</p>
+<div class="menu-btn" id="about-reset">tap five times to reset data</div>
+</div>
+</div>
+
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript">
+if (!("standalone" in window.navigator)) {
+$("#w").html("Welcome. Go to this webapp on your iOS device for a better experience. ");
+}
+
+
+$("#go-menu").css("display", "none");
+function gopage(sel, ismenu) {
+if (ismenu) {
+$("#go-menu").fadeOut();
+}
+else {
+$("#go-menu").fadeIn();
+}
+$(".pg").removeClass("active");
+$(sel).addClass("active");
+}
+$("#go-menu").click(function() {
+gopage("#pg-menu", true);
+});
+$("#menu-map").click(function() {
+gopage("#pg-map");
+});
+$("#menu-about").click(function() {
+gopage("#pg-about");
+});
+$("#menu-notes").click(function() {
+gopage("#pg-notes");
+demotext();
+});
+$("#about-reset").click(function() {
+$('#about-reset').off('click');
+$("#about-reset").click(function() {
+$('#about-reset').off('click');
+$("#about-reset").click(function() {
+$('#about-reset').off('click');
+$("#about-reset").click(function() {
+$('#about-reset').off('click');
+$("#about-reset").click(function() {
+$('#about-reset').off('click');
+localStorage.clear();
+window.location.reload();
+});
+});
+});
+});
+});
+</script>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBmff6s_vpgN7REwq_DC0-8GdnkSg9VMwo&sensor=true"></script>
+<script type="text/javascript">
+google.maps.event.addDomListener(window, 'load', mapsisloaded);
+function mapsisloaded() {
+var startlat;
+var startlng;
+var start;
+var map;
+if (navigator.geolocation) {
+	navigator.geolocation.getCurrentPosition(
+	function (position) {
+		startlat = position.coords.latitude;
+		startlng = position.coords.longitude;
+		start = new google.maps.LatLng(startlat, startlng);
+		firstdrawmap();
+		drawoverlays();
+	},
+	function (error) {
+		alert('ouch');
+	});
+}
+function firstdrawmap() {
+	google.maps.visualRefresh = true;
+	var mapOptions = {
+		zoomControl: true,
+		zoomControlOptions: {style: google.maps.ZoomControlStyle.LARGE},
+		mapTypeControl: true,
+		mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR},
+		streetViewControl: true,
+		overviewControl: false,
+		scaleControl: true,
+		center: start,
+		zoom: 18,
+		mapTypeId: google.maps.MapTypeId.HYBRID
+	};
+	map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+}
+function drawoverlays() {
+	overlaycurr();
+}
+
+function overlaycurr() {
+	var currentposimg = 'currentloc.png';
+	var currentposinfo = new google.maps.InfoWindow({
+		content: "<span class='maptag'>Current Location</span>"
+	});
+    var currentpos = new google.maps.Marker({
+        position: start,
+        map: map,
+        icon: currentposimg,
+        title: "Current Location"
+    });
+	google.maps.event.addListener(currentpos, 'click', function() {
+		currentposinfo.open(map, currentpos);
+	});
+}
+}
+</script>
+
+<script type="text/javascript">
+function ge(id) {
+return document.getElementById(id);
+}
+
+if (!localStorage.todo) {
+localStorage.todo="";
+}
+
+ge("notes").innerHTML=localStorage.todo;
+
+ge("notes").addEventListener("keyup", function() {
+localStorage.todo=ge("notes").innerHTML;
+});
+ge("notes").addEventListener("change", function() {
+localStorage.todo=ge("notes").innerHTML;
+});
+document.addEventListener("unload", function() {
+localStorage.todo=ge("notes").innerHTML;
+});
+ge("notes").addEventListener("blur", function() {
+localStorage.todo=ge("notes").innerHTML;
+});
+
+ge("notes").addEventListener("keydown", function(e) {
+
+ge("notes").className="down";
+if (e.which == 8) {
+// ge("notes").style.webkitAnimation="shake 0.1s infinite linear";
+}
+});
+ge("notes").addEventListener("keyup", function(e) {
+setTimeout(function() {
+ge("notes").className="";
+}, 0);
+/*
+if (e.which == 8) {
+setTimeout(function() {
+ge("notes").style.webkitAnimation="";
+}, 100);
+}
+*/
+});
+
+var c=ge("notes");
+
+var edown=document.createEvent("HTMLEvents");
+edown.initEvent("keydown", true, true);
+
+var eup=document.createEvent("HTMLEvents");
+eup.initEvent("keyup", true, true);
+
+function typeout(letter, time) {
+setTimeout(function() {
+c.dispatchEvent(edown);
+c.innerHTML+=letter;
+c.dispatchEvent(eup);
+}, time);
+}
+
+if (localStorage.demotexted != "true") {
+localStorage.demotexted="false";
+}
+// alert(c.innerHTML);
+function demotext() {
+if (localStorage.demotexted=="false") {
+if (c.innerHTML=="<br>" || c.innerHTML=="" || c.innerHTML=="hello world!") {
+c.innerHTML="";
+typeout("h", 1000);
+typeout("e", 1250);
+typeout("l", 1500);
+typeout("l", 1750);
+typeout("o", 2000);
+typeout(" ", 2500);
+typeout("w", 2750);
+typeout("o", 3000);
+typeout("r", 3250);
+typeout("l", 3500);
+typeout("d", 3750);
+typeout("!", 4000);
+}
+localStorage.demotexted="true";
+}
+}
+</script>
+<script type="application/javascript" src="add2home/add2home.js" charset="utf-8"></script>
+<script type="text/javascript">
+var addToHomeConfig = {
+	touchIcon: true,
+	startDelay: 1000,
+	lifespan: 30000
+};
+</script>
+
+<!-- <script type="text/javascript" src="live.js"></script> -->
+</body>
+</html>

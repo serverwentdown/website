@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Twister Spinner</title>
+<style>
+@import url(http://fonts.googleapis.com/css?family=Anton);
+body, html {
+background-color: #ccc;
+width: 100%;
+height: 100%;
+font-family: "Anton";
+overflow: hidden;
+}
+* {
+padding: 0;
+margin: 0;
+box-sizing: border-box;
+text-align: center;
+}
+img {
+height: 100%;
+width: auto;
+margin: auto 0 0 auto;
+}
+#spinner {
+height: 40%;
+width: 20px;
+background-color: #333;
+margin: 0 0 0 -10px;
+-webkit-transform-origin: 50% 96%;
+-webkit-transform: rotate(0deg);
+-webkit-transition: -webkit-transform 2s ease-in-out;
+position: absolute;
+left: 50%;
+top: 12%;
+border-radius: 20px;
+}
+#say {
+position: absolute;
+top: 0;
+right: 0;
+width: auto;
+font-size: 20px;
+text-transform: uppercase;
+padding: 5px 10px;
+background-color: #bbb;
+opacity: 0.5;
+}
+</style>
+</head>
+<body>
+<div id="spinner"></div>
+<img src="twister.jpg" />
+<div id="say">speech does not work, press any key to spin. </div>
+<script>
+
+var ang = 0;
+var words = ["spin", "rotate", "next", "go", "twist"];
+var useany = true;
+var userec = true;
+
+function rnd() {
+  addang = 10 + Math.random() * 1000;
+  ang += addang;
+  document.getElementById("spinner").style.webkitTransform = "rotate("+ang+"deg)";
+}
+
+if (userec) {
+  if (!('webkitSpeechRecognition' in window)) {
+    document.getElementById("say").innerHTML = "upgrade your browser to use speech recognition. ";
+  }
+  else {
+    var recognition = new webkitSpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = false;
+    recognition.onstart = function() {
+      if (useany) {
+        document.getElementById("say").innerHTML = "say anything to spin. ";
+      }
+      else {
+        document.getElementById("say").innerHTML = "say 'spin', 'rotate', 'next', 'go' or 'twist' to spin. ";
+      }
+    };
+    recognition.onresult = function(event) {
+      document.getElementById("say").innerHTML = event.results[event.resultIndex][0].transcript;
+      console.log(event.results[event.resultIndex]);
+      if (useany) {
+        console.log("useany enabled");
+        rnd();
+      }
+      else if (words.indexOf(event.results[event.resultIndex][0].transcript.replace(/ /g, '')) > -1) {
+        console.log("match");
+        rnd();
+      }
+    };
+  }
+  recognition.start();
+}
+else {
+
+}
+
+window.onkeyup = function() {
+  rnd();
+};
+
+
+/*
+recognition.onnomatch = function() {
+document.getElementById("say").innerHTML="no match";
+}; */
+
+// recognition.onerror = function(event) { ... }
+// recognition.onend = function() { ... }
+
+/*
+
+  navigator.getMedia = ( navigator.getUserMedia ||
+                       navigator.webkitGetUserMedia ||
+                       navigator.mozGetUserMedia ||
+                       navigator.msGetUserMedia);
+
+  var audioContext = new AudioContext();
+  function convertToMono( input ) {
+    var splitter = audioContext.createChannelSplitter(2);
+    var merger = audioContext.createChannelMerger(2);
+
+    input.connect( splitter );
+    splitter.connect( merger, 0, 0 );
+    splitter.connect( merger, 0, 1 );
+    return merger;
+  }
+  function updatePitch( time ) {
+  var cycles = new Array;
+  analyser.getByteTimeDomainData( buf );
+
+  var i=0;
+  // find the first point
+  var last_zero = findNextPositiveZeroCrossing( 0 );
+
+  var n=0;
+  // keep finding points, adding cycle lengths to array
+  while ( last_zero != -1) {
+    var next_zero = findNextPositiveZeroCrossing( last_zero + 1 );
+    if (next_zero > -1)
+      cycles.push( next_zero - last_zero );
+    last_zero = next_zero;
+
+    n++;
+    if (n>1000)
+      break;
+  }
+
+  // 1?: average the array
+  var num_cycles = cycles.length;
+  var sum = 0;
+  var pitch = 0;
+
+  for (var i=0; i<num_cycles; i++) {
+    sum += cycles[i];
+  }
+
+  if (num_cycles) {
+    sum /= num_cycles;
+    pitch = audioContext.sampleRate/sum;
+  }
+
+// confidence = num_cycles / num_possible_cycles = num_cycles / (audioContext.sampleRate/)
+  var confidence = (num_cycles ? ((num_cycles/(pitch * buflen / audioContext.sampleRate)) * 100) : 0);
+
+/*
+  console.log( 
+    "Cycles: " + num_cycles + 
+    " - average length: " + sum + 
+    " - pitch: " + pitch + "Hz " +
+    " - note: " + noteFromPitch( pitch ) +
+    " - confidence: " + confidence + "% "
+    );
+*//*
+  // possible other approach to confidence: sort the array, take the median; go through the array and compute the average deviation
+
+  detectorElem.className = (confidence>50)?"confident":"vague";
+  // TODO: Paint confidence meter on canvasElem here.
+
+  if (num_cycles == 0) {
+    pitchElem.innerText = "--";
+    noteElem.innerText = "-";
+    detuneElem.className = "";
+    detuneAmount.innerText = "--";
+  } else {
+    pitchElem.innerText = Math.floor( pitch );
+    var note =  noteFromPitch( pitch );
+    noteElem.innerText = noteStrings[note%12];
+    var detune = centsOffFromPitch( pitch, note );
+    if (detune == 0 ) {
+      detuneElem.className = "";
+      detuneAmount.innerText = "--";
+    } else {
+      if (detune < 0)
+        detuneElem.className = "flat";
+      else
+        detuneElem.className = "sharp";
+      detuneAmount.innerText = Math.abs( detune );
+    }
+  }
+
+  if (!window.requestAnimationFrame)
+    window.requestAnimationFrame = window.webkitRequestAnimationFrame;
+  rafID = window.requestAnimationFrame( updatePitch );
+}
+  navigator.getMedia ({
+      video: false,
+      audio: true
+   },
+   function(stream) {
+    var mediaStreamSource = audioContext.createMediaStreamSource(stream);
+    analyser = audioContext.createAnalyser();
+    analyser.fftSize = 2048;
+    convertToMono(mediaStreamSource).connect(analyser);
+    updatePitch();
+   }
+   function(err) {
+    console.log("The following error occured: " + err);
+   }
+  );
+  */
+</script>
+</body>
+</html>

@@ -1,0 +1,354 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+/* Units */
+
+html {
+  font-size: 10px;
+}
+
+@media screen and (max-width: 1024px) {
+  html {
+    font-size: 9px;
+  }
+}
+
+/* Definitions */
+
+:root {
+  --color-background: white;
+  --color-text: black;
+  --color-text-invert: white;
+  --color-nav: white;
+  --color-link: #cb4b16;
+  --color-link-active: #9e573a;
+  --color-blockquote: #cb4b16;
+  --color-timeline: #cb4b16;
+  --gradient-nav: linear-gradient(-30deg, rgba(216, 95, 17, 0.85), rgba(242, 134, 6, 0.85));
+  --gradient-base: linear-gradient(-30deg, rgba(216, 95, 17, 1), rgba(242, 134, 6, 1));
+  --fade-heading: 0.5;
+  --blur-nav: blur(4px);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #242424;
+    --color-text: white;
+    --color-text-invert: black;
+    --color-nav: black;
+    --gradient-nav: linear-gradient(-30deg, rgba(216, 95, 17, 0.85), rgba(242, 134, 6, 0.85));
+    --gradient-base: linear-gradient(-30deg, rgba(216, 95, 17, 1), rgba(242, 134, 6, 1));
+  }
+}
+
+/* Typography */
+
+body {
+  font-family: "Inter var", "Helvetica Neue", Ariel;
+  font-feature-settings: 'case' 1;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.4;
+  font-size: 1.6rem;
+  letter-spacing: -0.011em;
+  font-weight: 400;
+
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0.5em 0;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 1.8em;
+  letter-spacing: -0.021em;
+}
+h2 {
+  font-size: 1.6em;
+  letter-spacing: -0.02em;
+}
+h3 {
+  font-size: 1.4em;
+  letter-spacing: -0.019em;
+}
+h4 {
+  font-size: 1.2em;
+  letter-spacing: -0.016em;
+}
+h5 {
+  font-size: 1em;
+  letter-spacing: -0.011em;
+  opacity: var(--fade-heading);
+}
+h6 {
+  font-size: 0.8em;
+  letter-spacing: -0.003em;
+  opacity: var(--fade-heading);
+}
+
+p {
+  margin: 1em 0;
+}
+
+ul.inline li {
+  display: inline;
+  list-style: none;
+}
+ul.inline li:before {
+  content: "• ";
+  font-size: inherit;
+}
+ul.inline li:first-child:before {
+  content: none;
+}
+
+strong, b {
+  font-weight: 700;
+}
+
+em, i {
+  font-style: italic;
+}
+
+.big {
+  font-size: 1.2em;
+}
+
+small {
+  font-size: 0.8em;
+}
+
+.small {
+  /* Temporary, will need to replace with a nicer way to show projects */
+  font-size: 0.8em;
+}
+
+blockquote {
+  font-style: italic;
+  border-left: 0.3rem solid var(--color-blockquote);
+  padding: 0.4rem 1.6rem;
+  text-align: left;
+}
+
+a:link,
+a:hover,
+a:active,
+a:visited {
+  color: var(--color-link);
+}
+
+a:hover,
+a:active {
+  color: var(--color-link-active);
+}
+
+/* Utilitiy */
+
+.w-128 {
+  width: 12.8rem;
+}
+
+.w-96 {
+  width: 9.6rem;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.left {
+  text-align: left;
+}
+.center {
+  text-align: center;
+}
+.right {
+  text-align: right;
+}
+
+.f-1 {
+  flex: 1;
+}
+.fg-1 {
+  flex-grow: 1;
+}
+
+.nobreak {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Buttons */
+.button {
+  background: var(--gradient-base);
+  color: var(--color-text-invert);
+  text-decoration: inherit;
+  border-radius: 6px;
+  padding: 0.8rem 1.2rem;
+}
+a.button {
+  color: var(--color-text-invert);
+}
+.button:hover {
+  outline: 2px solid var(--color-link);
+}
+
+/* Icons */
+.icon {
+  height: 1em;
+}
+.icon.icon-padfix {
+  height: 0.8em;
+  margin: 0.2em;
+}
+
+/* Nav */
+
+nav.overlay {
+  /* padding: 2.4rem 1.2rem; */
+  padding: 0.8rem 1.6rem;
+  margin: 1.6rem 0;
+  display: flex;
+  align-items: center;
+
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  color: var(--color-nav);
+  background: var(--gradient-nav);
+  background-attachment: fixed;
+  background-size: 100vw 100vh;
+
+  -webkit-backdrop-filter: var(--blur-nav);
+  backdrop-filter: var(--blur-nav);
+}
+
+.nav-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 16rem;
+  background: var(--gradient-base);
+  background-attachment: fixed;
+  background-size: 100vw 100vh;
+}
+
+nav {
+  line-height: 1.8;
+}
+
+nav a:link,
+nav a:hover,
+nav a:active,
+nav a:visited {
+  color: inherit;
+}
+
+nav > * {
+  margin: 0 1.6rem;
+}
+
+/* Slide Overwrite */
+
+.fdr > * > .wrapper,
+.fdr > * > .wrapper {
+  width: 100%;
+  max-width: 76.8rem;
+}
+
+/* Slide Base */
+
+.fdr header,
+.fdr section {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+/* Slide Styles */
+
+.fdr header {
+  padding: 6.4rem 3.2rem;
+}
+.fdr section {
+  margin: 4.8rem 3.2rem;
+}
+
+@media screen and (min-width: 600px) {
+  .fdr header {
+    padding: 8rem 6.4rem;
+  }
+  .fdr section {
+    margin: 6.4rem 6.4rem;
+  }
+}
+
+/* Header */
+
+.fdr header {
+  position: relative;
+
+  color: var(--color-text-invert);
+  background: var(--gradient-base);
+  background-attachment: fixed;
+  background-size: 100vw 100vh;
+}
+.fdr header .wrapper {
+  margin-bottom: 2em;
+}
+
+.fdr header .header-slope {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6.4rem;
+  width: 100%;
+  color: var(--color-background);
+}
+
+/* Specific Styles */
+
+/* Social */
+
+.social {
+  font-size: 1.6em;
+  padding: 0.8rem 0;
+}
+
+/* Experience Timeline */
+
+.timeline {
+  list-style: none;
+  padding-left: 0;
+}
+
+.timeline-item {
+  display: flex;
+}
+.timeline-item .timeline-period {
+  padding: 1.6rem 0.8rem 0 0;
+  width: 6em;
+
+  font-size: 0.8em;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.timeline-item .timeline-content {
+  padding: 0.4rem 0.8rem;
+  flex: 1;
+
+  border-left: 0.2rem solid var(--color-timeline);
+}
+
+
+/* vim: set expandtab ts=2 sw=2: */

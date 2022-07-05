@@ -1,0 +1,300 @@
+
+/* Units */
+
+html {
+  font-size: 10px;
+}
+
+@media screen and (min-width: 1024px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media screen and (min-width: 1920px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+/* Scolling */
+
+html, body {
+  overflow-x: hidden;
+  position: relative; /* Safari likes this */
+}
+
+/* Typography */
+
+body {
+  font-family: "Inter var", "Helvetica Neue", Ariel;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.6;
+  font-size: 2rem;
+  font-weight: 500;
+  color: #fff;
+  background: #000;
+}
+
+@media screen and (max-width: 640px) {
+  body {
+    font-size: 1.6rem;
+  }
+}
+
+@media screen and (max-height: 640px) {
+  body {
+    font-size: 1.6rem;
+  }
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0.5em 0;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2.0em;
+}
+h2 {
+  font-size: 1.7em;
+}
+h3 {
+  font-size: 1.5em;
+}
+
+p {
+  margin: 1em 0;
+}
+
+.from-notion {
+  line-height: 1.4;
+}
+
+.from-notion p,
+.from-notion ul,
+.from-notion ol,
+.from-notion li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+strong, b {
+  font-weight: 700;
+}
+
+em, i {
+  font-style: italic;
+}
+
+pre {
+  font-family: monospace;
+  font-size: 0.7em;
+
+  margin: 0.5em 0;
+}
+code,
+code.hljs {
+  display: block;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 1em;
+}
+
+blockquote {
+  /*font-style: italic;*/
+  font-size: 1.4em;
+}
+
+blockquote.large {
+  font-weight: 700;
+  font-size: 2em;
+}
+
+a:link,
+a:hover,
+a:active,
+a:visited {
+  color: inherit;
+}
+
+a:hover,
+a:active {
+  opacity: 0.8;
+}
+
+/* Utilitiy */
+
+.w-128 {
+  width: 12.8rem;
+}
+
+.w-96 {
+  width: 9.6rem;
+}
+
+.w-64 {
+  width: 6.4rem;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.left {
+  text-align: left;
+}
+.center {
+  text-align: center;
+}
+.right {
+  text-align: right;
+}
+
+.f-1 {
+  flex: 1;
+}
+.fg-1 {
+  flex-grow: 1;
+}
+
+.nobreak {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Special */
+
+.interface-hidden {
+  cursor: none;
+}
+
+/* Nav */
+
+nav {
+  padding: 2.4rem 1.2rem;
+  display: flex;
+  align-items: center;
+
+  font-size: 0.666em;
+  color: inherit;
+}
+
+nav > * {
+  margin: 0 1.2rem;
+}
+
+/* Slide Navigation */
+
+.overlay.right,
+.overlay.left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;  
+  pointer-events: none;
+}
+
+#next,
+#previous {
+  margin: 1.2rem;
+  width: 3.6rem;
+  height: 3.6rem;
+  pointer-events: auto;
+  cursor: pointer;
+  opacity: 0.5;
+
+  transition: opacity 0.5s ease-in-out;
+}
+
+#next.disabled,
+#previous.disabled {
+  opacity: 0.08;
+}
+
+.interface-hidden #next,
+.interface-hidden #previous {
+  opacity: 0;
+}
+
+/* Top and Bottom Overlays */
+
+.overlay.top,
+.overlay.bottom {
+  opacity: 0.75;
+}
+
+/* Slide Base */
+
+.fdr header,
+.fdr section {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  transition: opacity 0.25s ease-in-out;
+  color: inherit;
+  background: transparent;
+}
+
+/* Slide Styles */
+
+.fdr header,
+.fdr section {
+  padding: 7rem 6rem;
+  overflow: auto;
+}
+
+.fdr .wrapper {
+  max-width: 80rem;
+}
+
+/* Background */
+
+.fdr {
+  position: relative;
+  z-index: 10;
+}
+
+.fdr > *.before {
+  opacity: 0;
+}
+
+.background {
+  background: linear-gradient(-30deg, #a31592, #6f15a3, #2a15a3, #1544a3, #1589a3) no-repeat;
+  transition: transform 1.5s ease-in-out, width 1.5s ease-in-out;
+}
+.overlay.background {
+  width: 100000px;
+}
+
+/* Enable vertical scrolling */
+
+.fdr .wrapper {
+  margin: auto; /* does magic to prevent text from overflowing above */
+}
+
+.overlay {
+  position: fixed;
+}
+
+/* AHHHHHHHHHHHHH */
+
+.wrapper {
+  width: 100%;
+}
+
+/* vim: set expandtab ts=2 sw=2: */

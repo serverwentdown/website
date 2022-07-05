@@ -1,0 +1,75 @@
+
+/* Base */
+
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+/* Layout */
+
+html, body, .fdr {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.fdr > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  background: #fff;
+}
+
+.fdr > *:not(:first-child) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fdr > *.before,
+.fdr > *.current {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Overlays */
+
+.overlay {
+  position: absolute;
+  z-index: 10;
+}
+
+.overlay.top { 
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.overlay.bottom {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.overlay.left {
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.overlay.right {
+  top: 0;
+  right: 0;
+  height: 100%;
+}
+
+
+
+
+
+
+
+/* vim: set expandtab ts=2 sw=2: */

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>7 lessons I learned about software engineering</title>
+  <link rel="icon" href="/profile.256.jpg">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+  <link rel="stylesheet" href="fdr.css">
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="github-dark.min.css">
+  <link rel="stylesheet" href="print.css" media="print">
+    <link rel="stylesheet" href="github.min.css" media="print">
+  <noscript>
+    <link rel="stylesheet" href="print.css">
+    <link rel="stylesheet" href="github.min.css">
+  </noscript>
+  <meta name="viewport" content="width=device-width">
+  <meta name="author" content="@serverwentdown">
+</head>
+<body>
+
+  <noscript>
+    <p style="color: #f00; margin: 2rem;">
+      <strong>JavaScript disabled? Here's a simple HTML version for you.</strong>
+    </p>
+  </noscript>
+
+  <div class="overlay top bottom background"></div>
+
+  <div class="fdr from-notion">
+
+    <header id="title">
+      <div class="wrapper">
+        <h1>7 lessons I learned about software engineering</h1>
+        <p>Practices and opinions I've picked up so far</p>
+        <h2>
+      </div>
+    </header>
+
+    <section id="about-me">
+      <div class="wrapper">
+        <img src="/profile.256.jpg" class="circle w-96" width="96" />
+        <h2>Hello, I'm Ambrose Chua</h2>
+        <ul>
+          <li>Build websites, run servers and occasionally play CTFs</li>
+          <li>Learning Rust, a great type-safe programming language</li>
+          <li>Currently serving NS under the Cyber NSF scheme</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="what-is-software-engineering">
+      <div class="wrapper">
+        <h2>What is software engineering?</h2>
+<ul><li><del>Writing fast code</del> (Most of the time, this is false)</li>
+</ul>
+<ul><li><strong>Writing sustainable code</strong><ul><li>Fulfils its purpose (and no more)</li>
+</ul>
+<ul><li>Understandable</li>
+</ul>
+<ul><li>Focused</li>
+</ul>
+</li>
+</ul>
+<ul><li>The tools and processes of writing code</li>
+</ul>
+      </div>
+    </section>
+
+    <section id="lessons-i-learned">
+      <div class="wrapper">
+        <h1>7 lessons I learned</h1>
+      </div>
+    </section>
+
+    <section id="tell-a-story">
+<div class="wrapper">
+<h2>1. Tell a story</h2><ul><li>Code is easier to read when it tells a story<ul><li>How does data flow? What data is returned or passed to methods?</li></ul><ul><li>Group related lines together</li></ul></li></ul><ul><li>Take time to plan how you structure code</li></ul><pre><code># Messy
+def create_post():
+  db = get_db()
+  post = parse_post(request, False)
+  validate(TITLE_REGEX, post[0])
+  db.execute("INSERT INTO post VALUES (?, ?, ?)", post + (g.user["id"],))
+  db.commit()
+
+# Neater
+def create_post():
+  # Read post title and body with validation
+  title, body = parse_post(request, validate=True)
+  # Save post to database
+  db = get_db()
+  db.execute(
+    "INSERT INTO post (title, body, author_id) VALUES (?, ?, ?)",
+    title, body, g.user["id"]
+  )
+  db.commit()</code></pre>
+</div>
+    </section>
+
+    <section id="write-less-code">
+      <div class="wrapper">
+<h2>2. Write less code</h2>
+<ul><li>Code is maintenance burden<ul><li>Useful software eventually needs to be maintained</li>
+</ul>
+</li>
+<li>Avoid writing unnecessary methods and lines of code while keeping things simple</li>
+</ul>
+<pre><code class="language-python"># Meh 
+def import_users(users_file_name):
+  """
+  Imports users from a CSV file
+
+  :param users_file_name: File path to the file
+  :raises IndexError: if the file cannot be parsed
+  """
+  users_file = open(users_file_name, "r")
+	for line in users_file.readlines():
+	  parts = line.split(",")
+	  username = parts[0]
+    name = parts[1]
+    db.execute(
+      "INSERT INTO users (username, name) VALUES (?, ?)",
+      username, name,
+    )
+  # ...
+
+# Better
+# - Take in file handles, not file names
+# - Raises the correct error type
+def import_users(users_file):
+  """
+  Imports users from a CSV file
+
+  :param users_file: Iterator over the lines in the file
+  :raises ValueError: if the file cannot be parsed 
+  """
+  for line in users_file:
+    username, name = line.split(",")
+    db.execute(
+      "INSERT INTO users (username, name) VALUES (?, ?)",
+      username, name,
+    )
+  # ...
+
+# Even better
+# - Rely on high-quality libraries for functionality
+import csv
+def import_users(users_file):
+  """
+  ...
+  """
+  for username, name in csv.reader(users_file):
+    db.execute(
+      "INSERT INTO users (username, name) VALUES (?, ?)",
+      username, name,
+    )
+  # ...</code></pre>
+      </div>
+    </section>
+
+    <section id="refactor-occasionally">
+      <div class="wrapper">
+<h2>3. Refactor code occasionally</h2>
+<ul><li>Signs of code in need of refactoring<ul><li>Difficult to add a new feature</li>
+<li>Repetitive or unnecessary code</li>
+<li>Hard for someone new to the project to read</li>
+<li>User requirements have significantly changed</li>
+</ul>
+</li>
+<li>Refactoring requires time dedicated to reorganising code</li>
+<li>Don't be emotionally attached to your code!</li>
+</ul>
+      </div>
+    </section>
+
+    <section id="abstractions">
+      <div class="wrapper">
+<h2>4. Methods and their arguments are abstractions</h2>
+<ul><li>Abstractions should be easily understood and concise<ul><li>Decide wisely what methods, arguments and return values are really necessary</li>
+</ul>
+</li>
+<li>Abstractions should avoid requiring knowledge about the implementation ("leaky abstractions")</li>
+</ul>
+<pre><code class="language-python">class StorageAbstraction:
+  # ...
+  def get_folder(self, name):
+    # ...
+    return folder_id
+  def get_file(self, folder_id, name):
+    # ...
+    return file_id
+    
+s = StorageAbstraction("/var/lib/storage")
+hi_folder = s.get_folder("hi")  # Returns a folder_id, an internal identifier
+my_file = s.get_file(hi_folder, "my")
+
+# Better, less methods are involved
+class StorageAbstraction:
+  # ...
+  def get_file(self, folder_name, name):
+    # ...
+    return file_id
+    
+s = StorageAbstraction("/var/lib/storage")
+my_file = s.get_file("hi", "my")  # Does not return internal identifiers</code></pre>
+      </div>
+    </section>
+
+    <section id="mix-paradigms">
+      <div class="wrapper">
+<h2>5. Don't restrict yourself to one paradigm</h2>
+<ul><li>Use concepts from OOP, functional, reactive and others, when it helps improve your "storytelling"</li>
+</ul>
+<ul><li>Most languages encourage this by providing features and libraries to write code in all paradigms</li>
+</ul>
+<pre><code class="language-python"># OOP can help organise data and behaviour
+class User:
+  name: str
+  # ...
+  def add_friend(self, friend):
+    # ...
+
+# Functional can help describe transformations
+friends = user.get_friends()
+frequent_friends = itertools.takewhile(
+	lambda x: x < 10,
+	filter(interacted_recently, friends),
+)
+show_names = map(lambda f: f.name, frequent_friends)</code></pre>
+      </div>
+    </section>
+
+    <section id="use-tools">
+      <div class="wrapper">
+<h2>6. Use code formatter and linters</h2>
+<ul><li>Get everyone on the same page when it comes to syntax and conventions</li>
+<li>Examples:<ul><li>Python: <a href="https://black.readthedocs.io/en/stable/" target="_blank">Black</a>, <a href="https://flake8.pycqa.org/en/latest/" target="_blank">Flake8</a>, ...</li>
+<li>JavaScript/TypeScript: <a href="https://eslint.org" target="_blank">ESLint</a>, <a href="https://prettier.io" target="_blank">Prettier</a>, ...</li>
+</ul>
+</li>
+</ul>
+      </div>
+    </section>
+
+    <section id="typing-is-documentation">
+      <div class="wrapper">
+<h2>7. Typing is documentation</h2>
+<ul><li>Types not only make code safer, they also serve as documentation</li>
+</ul>
+<pre><code class="language-python"># Example of type annotations in Python
+
+from typing import TextIO
+from datetime import datetime
+
+def import_users(users_file: TextIO) -> None:
+  # ...
+
+class User:
+  name: str
+  age: int
+  dob: datetime
+  # ...
+
+# Note that in Python, typing is not used
+# by the interpreter and you'll need a tool
+# like mypy and pyright to make code safer.</code></pre>
+<pre><code class="language-typescript">// TypeScript is a really awesome language
+
+interface User {
+  name: string
+  age: number
+  dob: Date
+}
+
+function generateFakeUser(prefix: string): User {
+  // ...
+}</code></pre>
+      </div>
+    </section>
+
+<section id="learning">
+<div class="wrapper">
+<h2>How to learn to write sustainable code</h2><ul><li>Don't listen to me but find out for yourself</li></ul><ul><li>Many resources are available online</li></ul><ul><li>Best is to gain experience for yourself</li></ul>
+</div>
+</section>
+
+    <section id="by-open-source">
+<div class="wrapper">
+<h2>Gaining experience through Open Source</h2><ol type="1" start="1"><li>Find a bug in a project you care about on GitHub</li></ol><ol type="1" start="2"><li>Read through the code to figure out how to fix it<ol type="a" start="1"><li>If there's too much complexity, find a simpler bug</li></ol><ol type="a" start="2"><li>Over time, from reading code you can pick up patterns</li></ol></li></ol><ol type="1" start="3"><li>Follow their contribution guidelines and open a pull request<ol type="a" start="1"><li>Don't be scared about making mistakes. Learn from them</li></ol></li></ol><ol type="1" start="4"><li>Wait patiently for the maintainers</li></ol><p>Check out <a href="https://hacktoberfest.digitalocean.com/">Hacktoberfest</a> if you want swag as incentive</p>
+</div>
+    </section>
+
+  </div>
+
+  <nav class="overlay top">
+    <span class="f-1">
+      <script>document.write(document.querySelector("meta[name=author]").content)</script>
+    </span>
+    <span class="f-1 center">
+      <script>document.write(document.title)</script>
+    </span>
+    <span class="f-1 right" id="page-number"></span>
+  </nav>
+
+  <nav class="overlay bottom">
+    <span class="f-1 center">
+      Slides at <a href="https://bit.ly/softwarelessons">bit.ly/softwarelessons</a>
+    </span>
+    <!-- <span><a href="https://github.com/serverwentdown/fdr">fdr</a> 0.1p1</span> -->
+  </nav>
+
+  <div class="overlay right">
+    <svg class="circle disabled" id="next" viewBox="0 0 32 32">
+      <defs>
+        <mask id="right-mask" x="0" y="0" width="32" height="32">
+          <rect x="0" y="0" width="32" height="32" fill="#fff" />
+          <text text-anchor="middle" x="18" y="21.5" font-family="Inter" font-weight="900" font-size="16">&#9654;</text>
+        </mask>
+      </defs>
+      <circle cx="16" cy="16" r="16" mask="url(#right-mask)" fill="#fff" />
+    </svg>
+  </div>
+  <div class="overlay left">
+    <svg class="circle disabled" id="previous" viewBox="0 0 32 32">
+      <defs>
+        <mask id="left-mask" x="0" y="0" width="32" height="32">
+          <rect x="0" y="0" width="32" height="32" fill="#fff" />
+          <text text-anchor="middle" x="15" y="21.5" font-family="Inter" font-weight="900" font-size="16">&#9668;</text>
+        </mask>
+      </defs>
+      <circle cx="16" cy="16" r="16" mask="url(#left-mask)" fill="#fff" />
+    </svg>
+  </div>
+
+  <script src="fdr.src.js"></script>
+  <script>
+    const BACKGROUND_SHIFT = 500;
+    const LARGEST_SCREEN = 8000;
+
+    const f = new Fdr();
+    f.bindKeyboard();
+    f.bindNext("#next");
+    f.bindPrevious("#previous");
+
+    document.querySelector(".background").style.width = f.size * BACKGROUND_SHIFT + LARGEST_SCREEN + "px";
+    f.bindPosition((position) => {
+      const pos = -position * BACKGROUND_SHIFT + "px";
+      document.querySelector(".background").style.transform = "translateX(" + pos + ")";
+      document.querySelector("#page-number").innerText = f.currentIndex + 1 + " of " + f.size
+    });
+    f.bindHashChange();
+    window.addEventListener("keyup", (e) => {
+      document.querySelector("body").classList.add("interface-hidden")
+    })
+    window.addEventListener("mousemove", (e) => {
+      document.querySelector("body").classList.remove("interface-hidden")
+    })
+  </script>
+  </script>
+  <script src="highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</body>
+</html>
+<!-- vim: set expandtab ts=2 sw=2: -->

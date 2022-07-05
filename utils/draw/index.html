@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Touchpad 2</title>
+<meta name="viewport" content="width=device-width" />
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<link rel="apple-touch-startup-image" href="http://placehold.it/320x460.png&text=app"> 
+<link rel="apple-touch-startup-image" href="http://placehold.it/640x920.png&text=app" sizes="640x920">
+<link rel="apple-touch-startup-image" href="http://placehold.it/640x1096.png&text=app" sizes="640x1096">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<style>
+* {
+padding:0;
+margin:0;
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+body {
+background-color: #aaa;
+color: #000;
+text-align: center;
+font-family: "Marker Felt";
+width: 100%;
+height: 100%;
+font-size: 20px;
+line-height: 20px;
+vertical-align: middle;
+overflow: hidden;
+font-family: Monospace;
+}
+html {
+width: 100%;
+height: 100%;
+overflow: hidden;
+}
+canvas {
+width: 100%;
+height: 100%;
+}
+</style>
+</head>
+<body>
+<canvas id="can" width="360" height="480">Sorry, you cant draw. </canvas>
+<script>
+can=ge("can");
+c=can.getContext("2d");
+
+res=2;
+linewidth=5*res;
+fillstyle="#aaa";
+strokestyle="#f00";
+
+can.height=document.height*res;
+can.width=document.width*res;
+
+c.lineWidth=linewidth;
+c.strokeStyle=strokestyle;
+
+function set() {
+// res=prompt("Pixel ratio (leave as it is if unsure)", "2");
+linewidth=prompt("Line width", linewidth/res)*res;
+if (linewidth!=0) {
+// fillstyle=prompt("Background color", "#aaa");
+strokestyle=prompt("Line color", strokestyle);
+}
+// alert("Tips: \nDouble-tap the bottom left corner to clear, the bottom right to save.  ");
+if (linewidth!=0 && strokestyle!=null) {
+// alert(strokestyle);
+c.lineWidth=linewidth;
+// c.fillStyle=fillstyle;
+c.strokeStyle=strokestyle;
+}
+else {
+linewidth=c.lineWidth;
+// c.fillStyle;
+strokestyle=c.strokeStyle;
+}
+
+// c.fillRect(0, 0, can.width, can.height);
+
+}
+
+set();
+
+c.fillStyle=fillstyle;
+
+c.fillRect(0, 0, can.width, can.height);
+
+istappeda=0;
+istappedd=0;
+istappedc=0;
+
+function ge(id) {
+return document.getElementById(id);
+}
+document.body.addEventListener("touchstart", start, false);
+document.body.addEventListener("touchend", end, false);
+document.body.addEventListener("touchmove", move, false);
+
+function start(event) {
+event.preventDefault();
+c.beginPath();
+var tou=event.changedTouches;
+c.moveTo(tou[0].pageX*res, tou[0].pageY*res);
+c.lineTo(tou[0].pageX*res, tou[0].pageY*res);
+c.stroke();
+/*
+c.fillStyle="#f00";
+c.lineWidth=0;
+c.arc(tou[0].pageX*res, tou[0].pageY*res, linewidth/2, 0, 2 * Math.PI, false);
+c.fill();
+c.lineWidth=linewidth;
+*/
+check(tou);
+}
+
+function move(event) {
+event.preventDefault();
+var tou=event.changedTouches;
+c.lineTo(tou[0].pageX*res, tou[0].pageY*res);
+c.stroke();
+}
+
+function end(event) {
+event.preventDefault();
+c.closePath();
+}
+
+function check(tou) {
+if (tou[0].pageX*res < can.width/4 && tou[0].pageY*res > can.height-25*res && istappeda) {
+fillstyle=prompt("Clear canvas? Set a new background color ", fillstyle);
+if (fillstyle!=null) {
+c.fillStyle=fillstyle;
+c.fillRect(0, 0, can.width, can.height);
+}
+else {
+fillstyle=c.fillStyle;
+}
+}
+else if (tou[0].pageX*res < can.width/4 && tou[0].pageY*res > can.height-25*res && istappeda == 0) {
+istappeda=1;
+setTimeout(function() {
+istappeda=0;
+}, 400);
+}
+
+if (tou[0].pageX*res > can.width/4*3 && tou[0].pageX*res < can.width && tou[0].pageY*res > can.height-25*res && istappedd) {
+// save
+png = can.toDataURL("image/png");
+document.write("<br /><a href='"+png+"' target='_blank'>open</a>");
+}
+else if (tou[0].pageX*res > can.width/4*3 && tou[0].pageX*res < can.width && tou[0].pageY*res > can.height-25*res && istappedd == 0) {
+istappedd=1;
+setTimeout(function() {
+istappedd=0;
+}, 400);
+}
+
+if (tou[0].pageX*res > can.width/4*2 && tou[0].pageX*res < can.width/4*3 && tou[0].pageY*res > can.height-25*res && istappedc) {
+set();
+}
+else if (tou[0].pageX*res > can.width/4*2 && tou[0].pageX*res < can.width/4*3 && tou[0].pageY*res > can.height-25*res && istappedc == 0) {
+istappedc=1;
+setTimeout(function() {
+istappedc=0;
+}, 400);
+}
+}
+
+</script>
+</body>
+</html>

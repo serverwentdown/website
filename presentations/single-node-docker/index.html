@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+
+    ⡇⢸ ⣎⣱ ⣏⡱ ⡷⣸ ⡇ ⡷⣸ ⡎⠑ ⡇
+    ⠟⠻ ⠇⠸ ⠇⠱ ⠇⠹ ⠇ ⠇⠹ ⠣⠝ ⠅
+
+    Badly written code ahead,
+    proceed with caution. 
+
+    It is the initial code 
+    for a personal presentation
+    framework, scattered with
+    all kinds of JS/CSS hacks.
+
+  -->
+  <meta charset="UTF-8">
+  <title>Single-node Docker</title>
+  <meta name="author" content="@serverwentdown">
+
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="https://rsms.me/inter/inter-ui.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Mono">
+  <style>
+    html {
+      background: linear-gradient(30deg, hsl(170, 100%, 25%), hsl(230, 100%, 25%));
+    }
+    body {
+      display: none;
+    }
+  </style>
+  <noscript>
+    <style>
+      html {
+        background: #fff;
+      }
+      body {
+        display: block;
+      }
+    </style>
+  </noscript>
+</head>
+<body>
+
+  <noscript>
+    <strong style="color: #f00">
+      JavaScript disabled? Here's a simple HTML version for you without the fancy slides.
+    </strong>
+  </noscript>
+  
+  <div class="fdr">
+     
+    <section id="title">
+      <div class="wrapper">
+        <h1>
+          Managing services on one server with Portainer and Drone
+        </h1>
+      </div>
+    </section>
+    
+    <section id="link-to-slides">
+      <div class="wrapper center">
+        <h3>
+          Slides at <a href="https://0xCE.CF/single-docker">https://0xCE.CF/single-docker</a>
+        </h3>
+      </div>
+    </section>
+    
+    <section id="about-me">
+      <div class="wrapper center">
+        <img src="profile.256.jpg" class="circle w-96" />
+        <h1>
+          Ambrose Chua
+        </h1>
+        <p>
+          <a href="https://keybase.io/serverwentdown">keybase.io/serverwentdown</a>
+        </p>
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <h1>AppVenture</h1>
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <img src="appventure.png" class="picture" />
+      </div>
+      <!--
+        Computer Science interest group
+      -->
+    </section>
+
+    <section>
+      <div class="wrapper center">
+        <h1>Previously...</h1>
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <img src="cpanel.png" class="w-128" />
+        <big>+</big>
+        <img src="pm2.png" class="w-128" />
+        <big>+</big>
+        shell scripts
+        <big>+</big>
+        git hooks
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper">
+        <p>It was a mess.</p>
+        <ul>
+          <li>No root access &rarr; Cannot install CentOS packages</li>
+          <li>cPanel was useless and intrusive, and costed us $20/mth!?</li>
+          <li><code>.htaccess</code> RewriteRule proxy to Node.js apps</li>
+          <li>Git post-update &rarr; <code>git clone REPO ~/build/</code> &rarr; <code>npm install</code> &rarr; <code>grunt</code> &rarr; <code>jekyll build</code>, all in the same user account hosting the files</li>
+          <li>...</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper center">
+        <h1>Goals</h1>
+      </div>
+    </section>
+
+    <section id="goals">
+      <div class="wrapper">
+        <ul>
+          <li>
+            Host web services in many languages and with different databases
+            <ul>
+              <li>Node.js, PHP, generated HTML, Go</li>
+              <li>MariaDB, MongoDB, files</li>
+            </ul>
+          </li>
+          <li>
+            Constant updates should not impact existing services
+          </li>
+          <li>
+            Secure!
+          </li>
+          <li>
+            Avoid writing our own scripts/software
+          </li>
+          <li>
+            <strong>Easy to perform day-to-day operations</strong>
+          </li>
+        </ul> 
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <h1>Solution: Docker!</h1>
+        <p>(of course)</p>
+      </div>
+    </section>
+    
+    <section id="why-docker">
+      <div class="wrapper">
+        <p>
+          Docker...
+        </p>
+        <ul>
+          <li>provides a standardised environment.</li>
+          <li>isolates services and their dependencies from one another.</li>
+          <li>encourages modularisation.</li>
+          <li>enables migration between hosts.</li>
+          <li>is simple to adopt.</li>
+          <li>provides an additional layer of security.</li>
+        </ul>
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <h1>Setup</h1>
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper">
+        <p>
+          Host OS: Container Linux
+        </p>
+        <ul>
+          <li>My favourite OS for containers!</li>
+          <li>Minimal, only has Docker</li>
+          <li>No package manager</li>
+          <li>Automatic updates!</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper">
+        <ul>
+          <li>
+            Automatic updates like ChromeOS
+            <ul>
+              <li>Fetch updates using Google's Omaha</li>
+              <li>Writes updates to backup /usr partition</li>
+              <li>Sets that partition as default and reboot</li>
+            </ul>
+          </li>
+          <li>
+            Constant security and kernel updates
+          </li>
+        </ul>
+        <p>
+          I configured it to perform updates between 11pm and 12am
+        </p>
+        </ul>
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper">
+        <p>
+          Cloud Platform: DigitalOcean
+        </p>
+        <ul>
+          <li>Provides CoreOS as an OS option</li>
+          <li>We had experience with it</li>
+          <li>Easiest to get started</li>
+        </ul>
+        <p> 
+          Sidenote: Cost us much less than our previous host.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper center">
+        <script type="text/javascript" src="https://asciinema.org/a/W0JmkV1jAN7SetWVjan7CcV3M.js" id="asciicast-W0JmkV1jAN7SetWVjan7CcV3M" async></script>
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <h1>Is a CLI enough?</h1>
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <h1>Nah.</h1>
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <img src="portainer1.png" class="picture">
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <img src="portainer.png" class="w-512">
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper">
+        <p>
+          Portainer...
+        </p>
+        <ul>
+          <li>
+            makes Docker really easy and fun to use.
+          </li>
+          <li>
+            has an experimental "recreate" button to stop, re-pull and start the image with the same settings.
+            <ul>
+              <li>Not the best solution, but it works well for us. We don't need an overly complex solution.</li>
+            </ul>
+          </li>
+        </ul>
+        <p>
+          Kubernetes is awesome but not useful for this. 
+        </p>
+        <!--
+          Go check kubernetes out
+        -->
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper">
+        <pre><code>docker run --detach \
+    --restart unless-stopped \
+    --network management \
+    --publish 9000:9000 \
+    --volume /data/portainer:/data \
+    --volume /var/run/docker.sock:/var/run/docker.sock \
+    --name portainer \
+    portainer</code></pre>
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <h1>Success!</h1>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper center">
+        <h1>Success?</h1>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper center">
+        <h1>What about our private containers?</h1>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper center">
+        <img src="dockerhub.png" class="picture">
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <img src="repocount.png" class="picture w-384">
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper">
+        <pre><code>docker run --detach \
+    --restart unless-stopped \
+    --network management \
+    --publish 5000:127.0.0.1:5001 \
+    --volume /var/lib/registry:/data/registry \
+    --name registry \
+    registry:2</code></pre>
+      </div>
+      <!--
+        From this you can notice two things:
+        * Seperate management network
+        * Store data in /data
+      -->
+    </section>
+
+    <section>
+      <div class="wrapper">
+        <p>Benefits:</p>
+        <ul>
+          <li>Use your own storage</li>
+        </ul>
+        <p>Problems:</p>
+        <ul>
+          <li>No authentication out of the box</li>
+          <li>You don't have unlimited storage per repository</li>
+          <li>Have to ensure it doesn't grow out of control in size</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper center">
+        <h1>Quick recap...</h1>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper">
+        <p>
+          What we have so far:
+        </p>
+        <ul>
+          <li>CoreOS as Docker Host</li>
+          <li>Manage containers with Portainer</li>
+          <li>Host containers on our own Docker Registry</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper center">
+        <h1>What about source code?</h1>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper center">
+        <img src="github.png" class="picture">
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper center">
+        <p>Unlimited private repositories and users! Thanks, GitHub!</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper center">
+        <h1>Are we done?</h1>
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <h1>Continuous Delivery</h1>
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper">
+        <ul>
+          <li>
+            For us, we need the automation so that one guy doesn't have to <code>docker build</code> and <code>docker push</code>
+          </li>
+          <li>
+            Also gives us a way to build Android APKs from source in a reproducable manner
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper center">
+        <h1>Drone</h1>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper">
+        <p>
+          Drone is a simple CI/CD platform written in Go. <small>(I love Go)</small>
+        </p>
+        <ul>
+          <li>Integrates with GitHub projects</li>
+          <li>Really easy to install</li>
+          <li><code>docker-compose</code>-like syntax</li>
+          <li>Comes as a Docker container</li>
+        </ul>
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper">
+        <p>
+          Installing Drone is simple
+        </p>
+        <ul>
+          <li>
+            On your Git host, register a new OAuth client and obtain secret
+            <ul>
+              <li>Drone supports GitHub, GitLab, Gitea, Gogs, Bitbucket, Coding</li>
+            </ul>
+          </li>
+          <li>
+            Run <code>drone/drone:0.8</code>, mount <code>/var/lib/drone</code>, set enviromental variables, publish ports 80
+          </li>
+          <li>
+            Run <code>drone/agent:0.8</code>, mount <code>/var/run/docker.sock</code>, set enviromental variables
+          </li>
+          <li>Or, deploy with <code>docker-compose</code></li>
+        </ul>
+        <p>
+          Check out <a href="http://docs.drone.io/installation/">http://docs.drone.io</a>
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper">
+        <p>
+          Enable Drone on your project
+        </p>
+        <ul>
+          <li>Open the hamburger menu &rarr; Repositories and enable the project</li>
+        </ul>
+        <p>
+          Then, write a <code>.drone.yml</code> file. 
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper">
+        <p>
+          <code>cat ~/appventure-nush/caddy/.drone.yml</code>
+        </p>
+        <pre><code>pipeline:
+  test:
+    image: 127.0.0.1:5001/caddy
+    commands:
+      - caddy -validate
+  publish:
+    image: plugins/docker     # Docker plugin builds 
+                              #   and publishes images
+    registry: registry:5000   # Not recommended
+    insecure: true
+    repo: registry:5000/caddy
+    tags:
+      - latest</code></pre>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper">
+        <p>
+          <code>cat ~/appventure-nush/some-android-app/.drone.yml</code>
+        </p>
+        <pre><code>pipeline:
+  build:
+    image: 127.0.0.1:5001/builder-android
+  release:
+    image: plugins/github-release
+    secrets: [ github_token ]
+    files: app/build/outputs/apk/app-debug.apk
+    when:
+      event: tag</code></pre>
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <img src="drone1.png" class="picture">
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <img src="drone2.png" class="picture">
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper center">
+        <h1>Caddy</h1>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper">
+        <p>
+          Two networks:
+        </p>
+        <ul>
+          <li>primary, containing all the web services</li>
+          <li>management, containing the management services like portainer</li>
+        </ul>
+        <p>
+          Caddy reverse proxies services on the primary network, and terminates TLS using Let's Encrypt 
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrapper center">
+        <h1>Monitoring</h1>
+      </div>
+      <!-- 
+        Small Go app that posts to slack!
+      -->
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <h1>Architecture</h1>
+      </div>
+    </section>
+    
+    <section>
+      <div class="wrapper center">
+        <img src="appventure-architecture.min.svg" class="picture">
+      </div>
+    </section>
+<!--
+    <section>
+      <div class="wrapper">
+        <ul>
+          <li>CoreOS as Docker Host</li>
+          <li>Manage running containers with Portainer</li>
+          <li>Host containers on our own Docker Registry</li>
+          <li>Build containers automatically with Drone</li>
+        </ul>
+      </div>
+    </section>
+-->
+    <section id="end">
+      <div class="wrapper center">
+        <h1>Thank you!</h1>
+      </div>
+    </section>
+
+  </div>
+
+  <nav class="overlay top nobreak">
+    <span class="f-1">
+      <script>document.write(document.querySelector("meta[name=author]").content)</script>
+    </span>
+    <span class="f-1 center">
+      <script>document.write(document.title)</script>
+    </span>
+    <span class="f-1 right" id="page-number"></span>
+  </nav>
+  <nav class="overlay bottom" style="opacity: 0.25">
+    <span class="f-1"></span>
+    <span><a href="https://github.com/serverwentdown/fdr">fdr</a> 0.1p1</span>
+  </nav>
+  
+  <script src="start.js"></script>
+</body>
+</html>
+<!-- vim: set expandtab ts=2 sw=2: -->

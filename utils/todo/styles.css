@@ -1,0 +1,159 @@
+
+::selection {
+background-color: rgba(102, 85, 0, 0.8);
+color: #dc0;
+}
+::-moz-selection {
+background-color: rgba(102, 85, 0, 0.8);
+color: #dc0;
+}
+* {
+padding: 0;
+margin: 0;
+outline: none;
+-webkit-tap-highlight-color: transparent;
+}
+body, html {
+overflow: hidden !important;
+height: 100%;
+width: 100%;
+font-family: "Marker Felt", "Helvetica Neue", Helvetica;
+color: #650;
+background-color: #ff9;
+font-size: 20px;
+min-height: 416px;
+line-height: 20px;
+font-weight: 200;
+-webkit-overflow-scrolling: touch;
+}
+body {
+}
+html {
+}
+h1 {
+color: #dc0;
+background-color: #650;
+font-size: 30px;
+text-align: center;
+height: 38px;
+width: 100%;
+line-height: 38px;
+vertical-align: middle;
+font-weight: 200;
+position: absolute;
+z-index: 1;
+text-shadow: rgba(175, 175, 175, 0.5) 1px 1px 0;
+-webkit-user-select:none;
+}
+#scroll {
+height: 100%;
+width: 100%;
+overflow-x: hidden;
+overflow-y: auto;
+-webkit-overflow-scrolling: touch;
+}
+#content {
+padding: 38px 0 1px 0;
+}
+ol {
+padding: 5px 5px 5px 30px;
+/* a little to much 
+text-shadow: rgba(175, 175, 175, 0.5) 1px 1px 0; */
+}
+li {
+margin: 5px 5px 5px 5px;
+padding: 5px;
+min-height: 50px;
+background-color: #fe8;
+box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+transition: all 1s;
+-webkit-transition: all 1s;
+-moz-transition: all 1s;
+-o-transition: all 1s;
+-ms-transition: all 1s;
+-webkit-tap-highlight-color: rgba(102, 85, 0, 0.6);
+text-decoration: none;
+}
+li .note {
+min-height: 50px;
+-webkit-tap-highlight-color: rgba(102, 85, 0, 0.6);
+}
+li .note:focus {
+background-color: rgba(0, 0, 0, 0.02);
+}
+li .delete {
+float: right;
+cursor: pointer;
+display: none;
+text-align: center;
+position: relative;
+bottom: 27px;
+right: -5px;
+color: red;
+width: 30px;
+line-height: 30px;
+-webkit-tap-highlight-color: rgba(102, 85, 0, 0.6);
+-webkit-user-select: none;
+    border: 1px solid #000;
+}
+li .check {
+float: right;
+cursor: pointer;
+text-align: center;
+display: block;
+position: relative;
+top: -5px;
+right: -5px;
+color: green;
+width: 30px;
+line-height: 30px;
+-webkit-tap-highlight-color: rgba(102, 85, 0, 0.6);
+-webkit-user-select: none;
+    border: 1px solid #000;
+}
+li.checked {
+text-decoration: line-through;
+}
+#add {
+cursor: pointer;
+color: rgba(102, 85, 0, 0.4);
+text-shadow: none;
+min-height: 50px;
+-webkit-tap-highlight-color: rgba(102, 85, 0, 0.6);
+}
+#add:hover {
+background-color: rgba(0, 0, 0, 0.02);
+}
+#info {
+cursor: pointer;
+display: inline-block;
+position: absolute;
+top: 8px;
+right: 8px;
+font-size: 18px;
+border-radius: 15px;
+width: 20px;
+height: 20px;
+line-height: 20px;
+border: 0px solid #dc0;
+/* font-family: "Helvetica Neue", Helvetica; */
+font-weight: 200;
+background-color: rgba(0, 0, 0, 0.1);
+}
+#info:hover {
+background-color: rgba(0, 0, 0, 0.3);
+}
+#infocredits {
+font-size: 10px;
+padding: 5px;
+line-height: 12px;
+}
+#infobox {
+display:none;
+height:auto;
+background-color:#ff9;
+color:#650
+}
+#infobox h1 {
+position: relative;
+}

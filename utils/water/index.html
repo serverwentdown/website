@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>glass</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<link rel="icon" type="image/png" href="img/icon.png" />
+<link rel="apple-touch-icon-precomposed" href="img/icon.png" />
+<style>
+* {
+padding: 0;
+margin: 0;
+}
+html, body {
+overflow-x: hidden;
+overflow-y: hidden;
+width: 100%;
+height: 480px;
+}
+#glass {
+height: 480px;
+z-index: 99999;
+}
+#water {
+-webkit-transform: rotateZ(0deg);
+position: absolute;
+top: -85px;
+left: -150px;
+z-index: -10;
+height: 480px;
+}
+</style>
+</head>
+<body>
+<img src="img/glass.png" id="glass" />
+<img src="img/water/water1.jpg" id="water" />
+<script type="text/javascript">
+function ge(id) {
+return document.getElementById(id);
+}
+imgs=[1, 2, 3, 4, 5, 6, 7, 8];
+imgcase=0;
+setInterval(function() {
+imgcase=Math.floor(Math.random()*imgs.length);
+ge("water").src="img/water/water"+imgs[imgcase]+".jpg";
+}, 300);
+function tilt(acc) {
+    ge("water").style.webkitTransform="rotateZ("+-acc[1]+"deg)"
+}
+if (window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientation', function(event) {
+        tilt([event.beta, event.gamma]);
+    }, true);
+} else if (window.DeviceMotionEvent) {
+    window.addEventListener('devicemotion', function(event) {
+        tilt([event.acceleration.x * 2, event.acceleration.y * 2]);
+    }, true);
+} else {
+    window.addEventListener('MozOrientation', function(orientation) {
+        tilt([orientation.x * 50, orientation.y * 50]);
+    }, true);
+}
+</script>
+</body>
+</html>

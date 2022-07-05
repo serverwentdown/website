@@ -1,0 +1,42 @@
+
+/* fdr.css */
+
+body {
+  color: initial;
+  background: initial;
+  overflow: initial;
+  font-size: 1.6rem;
+}
+
+.fdr > * {
+  position: static;
+  width: auto;
+  height: auto;
+
+  display: block !important;
+  opacity: 1 !important;
+  pointer-events: all !important;
+}
+
+.overlay {
+  display: none;
+}
+
+/* theme.css */
+
+code,
+code.hljs {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.fdr header,
+.fdr section {
+  padding: 3rem 2rem;
+  overflow: auto;
+}
+
+.background {
+  background: none;
+}
+
+/* vim: set expandtab ts=2 sw=2: */
