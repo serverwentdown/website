@@ -77,8 +77,26 @@ h3 {
   font-size: 1.5em;
 }
 
-p {
-  margin: 1em 0;
+p,
+ul,
+ol {
+  margin: 0.5em 0;
+}
+
+ul,
+ol {
+  padding-left: 1.2em;
+}
+
+li {
+  margin: 0.25em;
+}
+
+ul ul,
+ul ol,
+ol ul,
+ol ol {
+  margin: 0em;
 }
 
 .from-notion {
@@ -149,6 +167,10 @@ a:active {
 }
 
 /* Utilitiy */
+
+.w-full {
+  width: 100%;
+}
 
 .w-512 {
   width: 51.2rem;
