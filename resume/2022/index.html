@@ -21,160 +21,6 @@
     />
     <link rel="stylesheet" href="style.css" />
     <title>Ambrose Chua: Resume</title>
-    <style>
-      html {
-        font-family: "Space Mono", monospace;
-        line-height: 1.4;
-        border: 1rem solid rgba(0, 0, 0, 0.33);
-      }
-
-      body {
-        padding: 4rem 2rem;
-        margin: 0 auto;
-        max-width: 48rem;
-      }
-
-      @media screen and (max-width: 576px) {
-        html {
-          border-width: 0.5rem;
-        }
-        body {
-          padding: 1rem;
-        }
-      }
-
-      h1 {
-        margin-left: 1.25em;
-      }
-      h1:before {
-        content: "# ";
-        margin-left: -1.25em;
-        opacity: 0.33;
-        font-weight: normal;
-      }
-
-      h2 {
-        margin-left: 1.875em;
-      }
-      h2:before {
-        content: "## ";
-        margin-left: -1.875em;
-        opacity: 0.33;
-        font-weight: normal;
-      }
-
-      h3 {
-        margin-left: 2.5em;
-      }
-      h3:before {
-        content: "### ";
-        margin-left: -2.5em;
-        opacity: 0.33;
-        font-weight: normal;
-      }
-
-      h4 {
-        margin-left: 3.125em;
-      }
-      h4:before {
-        content: "#### ";
-        margin-left: -3.125em;
-        opacity: 0.33;
-        font-weight: normal;
-      }
-
-      h5 {
-        margin-left: 3.6em; /* Note: supposed to be 3.75em */
-      }
-      h5:before {
-        content: "##### ";
-        margin-left: -3.6em; /* Note: supposed to be 3.75em */
-        opacity: 0.33;
-        font-weight: normal;
-      }
-
-      blockquote {
-        margin-left: 1.25em;
-        font-style: italic;
-      }
-      blockquote:before {
-        content: "> ";
-        margin-left: -1.25em;
-        opacity: 0.33;
-        font-weight: bold;
-      }
-
-      ul {
-        list-style: none;
-        padding-left: 1.25em;
-      }
-      ul li:before {
-        content: "- ";
-        margin-left: -1.25em;
-        opacity: 0.33;
-        font-weight: bold;
-      }
-
-      strong:before {
-        content: "**";
-        opacity: 0.33;
-        font-weight: normal;
-      }
-      strong:after {
-        content: "**";
-        opacity: 0.33;
-        font-weight: normal;
-      }
-
-      section {
-        margin: 4rem 0;
-      }
-
-      /* Primitives */
-
-      .float-right {
-        float: right;
-      }
-
-      .h-64 {
-        height: 4rem;
-      }
-
-      .subtle {
-        opacity: 0.33;
-      }
-
-      /* Experience Timeline */
-
-      .timeline {
-        list-style: none;
-        padding-left: 0;
-      }
-      .timeline-item:before {
-        content: none;
-      }
-      .timeline-item {
-        display: flex;
-      }
-      .timeline-item .timeline-period {
-        padding-right: 0.5rem;
-        padding-top: 2rem;
-        width: 6rem;
-
-        font-size: 0.8em;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-      .timeline-item .timeline-content {
-        flex: 1;
-
-        padding-left: 1rem;
-        border-left: 0.2rem solid rgba(0, 0, 0, 0.33);
-      }
-    </style>
   </head>
   <body>
     <header>
@@ -372,9 +218,9 @@
             <div class="timeline-content">
               <h4>National University of Singapore</h4>
               <p>
-                As part of NUS High School Honours programme, I took CS1010S
-                (Programming Methodology), CS2100 (Computer Organisation),
-                CS2106 (Introduction to Operating Systems)
+                As part of NUS High School Honours programme, I took modules
+                CS1010S (Programming Methodology), CS2100 (Computer
+                Organisation), CS2106 (Introduction to Operating Systems)
               </p>
             </div>
           </li>
@@ -421,6 +267,15 @@
           (2017-2021)
         </h4>
         <p>A collection of nicer Docker containers I use.</p>
+        <h4>My Homelab (2016-present)</h4>
+        <p>
+          My homelab has evolved a lot through the years, using various
+          operating systems (Ubuntu, Fedora), web servers (nginx, Apache, Caddy,
+          traefik), orchestration technology (VirtualBox, libvirtd, Docker,
+          Kubernetes), storage (ext4, btrfs, ZFS), routing (pfSense, Linux
+          routing, NAT64), switching and other bits, which gave me a deeper
+          understanding of Linux.
+        </p>
         <h4>
           <a
             target="_blank"
