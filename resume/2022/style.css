@@ -10,10 +10,17 @@ body {
   max-width: 56rem;
 }
 
+.print-only {
+  display: none;
+}
+
 @media print {
   html {
     font-size: 12px;
     border: none;
+  }
+  .print-only {
+    display: initial;
   }
 }
 
@@ -125,6 +132,14 @@ section {
 
 .subtle {
   opacity: 0.33;
+}
+
+/* Specials */
+
+.absolute-top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 /* Experience Timeline */
