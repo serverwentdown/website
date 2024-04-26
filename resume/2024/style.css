@@ -1,0 +1,174 @@
+html {
+  font-family: "Space Mono", monospace;
+  line-height: 1.4;
+  border: 1rem solid rgba(0, 0, 0, 0.33);
+}
+
+body {
+  padding: 4rem 2rem;
+  margin: 0 auto;
+  max-width: 56rem;
+}
+
+.print-only {
+  display: none;
+}
+
+@media print {
+  html {
+    font-size: 12px;
+    border: none;
+  }
+  .print-only {
+    display: initial;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  html {
+    border-width: 0.5rem;
+  }
+  body {
+    padding: 1rem;
+  }
+}
+
+h1 {
+  margin-left: 1.25em;
+}
+h1:before {
+  content: "# ";
+  margin-left: -1.25em;
+  opacity: 0.33;
+  font-weight: normal;
+}
+
+h2 {
+  margin-left: 1.875em;
+}
+h2:before {
+  content: "## ";
+  margin-left: -1.875em;
+  opacity: 0.33;
+  font-weight: normal;
+}
+
+h3 {
+  margin-left: 2.5em;
+}
+h3:before {
+  content: "### ";
+  margin-left: -2.5em;
+  opacity: 0.33;
+  font-weight: normal;
+}
+
+h4 {
+  margin-left: 3.125em;
+}
+h4:before {
+  content: "#### ";
+  margin-left: -3.125em;
+  opacity: 0.33;
+  font-weight: normal;
+}
+
+h5 {
+  margin-left: 3.6em; /* Note: supposed to be 3.75em */
+}
+h5:before {
+  content: "##### ";
+  margin-left: -3.6em; /* Note: supposed to be 3.75em */
+  opacity: 0.33;
+  font-weight: normal;
+}
+
+blockquote {
+  margin-left: 1.25em;
+  font-style: italic;
+}
+blockquote:before {
+  content: "> ";
+  margin-left: -1.25em;
+  opacity: 0.33;
+  font-weight: bold;
+}
+
+ul {
+  list-style: none;
+  padding-left: 1.25em;
+}
+ul li:before {
+  content: "- ";
+  margin-left: -1.25em;
+  opacity: 0.33;
+  font-weight: bold;
+}
+
+strong:before {
+  content: "**";
+  opacity: 0.33;
+  font-weight: normal;
+}
+strong:after {
+  content: "**";
+  opacity: 0.33;
+  font-weight: normal;
+}
+
+section {
+  margin: 4rem 0;
+}
+
+/* Primitives */
+
+.float-right {
+  float: right;
+}
+
+.h-64 {
+  height: 4rem;
+}
+
+.subtle {
+  opacity: 0.33;
+}
+
+/* Specials */
+
+.absolute-top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+/* Experience Timeline */
+
+.timeline {
+  list-style: none;
+  padding-left: 0;
+}
+.timeline-item:before {
+  content: none;
+}
+.timeline-item {
+  display: flex;
+}
+.timeline-item .timeline-period {
+  padding-right: 0.5rem;
+  padding-top: 2rem;
+  width: 6rem;
+
+  font-size: 0.8em;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.timeline-item .timeline-content {
+  flex: 1;
+
+  padding-left: 1rem;
+  border-left: 0.2rem solid rgba(0, 0, 0, 0.33);
+}
