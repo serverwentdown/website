@@ -1,0 +1,66 @@
+==================================================================
+https://keybase.io/serverwentdown
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://ambrose.chua.family
+  * I am serverwentdown (https://keybase.io/serverwentdown) on keybase.
+  * I have a public key with fingerprint AE67 7CFF 65D9 84EB 1F0D  C24C DB3F FE06 4995 FE8D
+
+To do so, I am signing this object:
+
+{
+    \"body\": {
+        \"key\": {
+            \"eldest_kid\": \"010110430dc2d28545bb5b330e2b43dc37d70bf292bf0d4c42ae371abfd77cf3a5d50a\",
+            \"fingerprint\": \"ae677cff65d984eb1f0dc24cdb3ffe064995fe8d\",
+            \"host\": \"keybase.io\",
+            \"key_id\": \"db3ffe064995fe8d\",
+            \"kid\": \"010110430dc2d28545bb5b330e2b43dc37d70bf292bf0d4c42ae371abfd77cf3a5d50a\",
+            \"uid\": \"5988f6406deb07af36048fd30cd94519\",
+            \"username\": \"serverwentdown\"
+        },
+        \"service\": {
+            \"hostname\": \"ambrose.chua.family\",
+            \"protocol\": \"https:\"
+        },
+        \"type\": \"web_service_binding\",
+        \"version\": 1
+    },
+    \"ctime\": 1492247910,
+    \"expire_in\": 157680000,
+    \"prev\": \"ba1346d6a56cde7df12d81f850eec0012fb89d91acd82cbe89e55b27a75f63f7\",
+    \"seqno\": 4,
+    \"tag\": \"signature\"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+
+owGtUl1IVEEU3t1+NeyHKMLC6FJKpTb33pn7s4IEQiBabUVmhiwzd2bWq+692927
+u8pSYWXRQz9IvQQ99CNZWC9RD1pSEUkGUU9SEBUiIVFaVBQRNVfqrcfmZeac+b7v
+fOdwThXNCM0N39g6FOnJDjSHH0+QUOPHcTsvEZd2StG81MamL9ZOWdqPt9lUikpA
+BrIMoAqopVDFQBARgoiqAqYQqFJL1akOCFdMhXBAoQUVzFRdxoRTXbe4ihFFAEvl
+EredBPNSnu34QhYzLfjmGqKmARmReVAAWpSonDOgQdNEnBlUEFvcdMAQ5ghOs0rb
+FTkRxKft/QP/n31npuWQaRhcg0CjjAAdc1UD0OBUBRY1IZLNAJhmnoOTTKDFK8u8
+HHN86uYcaV/5dMa2WDDeoJ8/OJwknit6sloyuJLjpN3eKYRSnuu7ltsuAC2+n0pH
+AwG/MxUwcozE/2jFie1QMVTBEMXStutIUVkgLd8OxGVoKgrUTRmUS6wjZXssbgcI
+pGsGEEfUYR7LCk2CZRVqVMNIsyjTKZcVasjcQIAxCwBZ4cQwqSljixqKRZhhMoSI
+omMdcU3luhS0t9dxpSgUPnEiGICdcLCf8Zi0r/BYeMXMUHhuaPasSLBuocKChX93
+sPHInF8bM+xzQUwfXe2/LW5iBfOKK5a3lm4e7t8zdOJB/aOK2JLulZmvA11XNXjc
+Wjq4vaj/4eTa/VNrzo7ERvCTmu8LnqODE8bp1trr+Uv9Y+8H5r+cele6YXXuNaur
+/7o4qV0p+fihBFV1Lex4XtYaLlk/mincleVHJw/39IINewpiW3YWdTfs7rPe/Pz1
+sDRyszp7vw8sWhcJLx5/U/u049ZgzcjKtt5cpLjh7rKLVfefTk30fUq0VtUnxp99
+S47VaZvwp8qKB/fK9n77Un2gY/TH0Kr3L+aR3vyZa5dv3xq7+PJkbcsknChqeBUD
+b7eNHJPLm5rOZ88dWrNj+EJ3Tf7DnQPNvwE=
+=AfGb
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/serverwentdown
+
+==================================================================
